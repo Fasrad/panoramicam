@@ -2,6 +2,7 @@
 topAllegro.c
 for the top of panoramicam
 uses an Allegro multistepping stepper driver
+written for the ATMEGA 168 microcontroller and gcc
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -62,11 +63,12 @@ void die (int me){
     delay_ms(999);
     }
 }//die
+
 int main(){
     uint8_t delay;           //delay between pulses, in timer clockticks
-    uint8_t maxdelay;
-    uint8_t inflation;
-    uint8_t bernanke;
+    uint8_t maxdelay;        //for sanity/bounds checking
+    uint8_t inflation;       //linear term for spool slowing/delay increase 
+    uint8_t bernanke;        //nonlinear slowing term (increases inflation)
 
     //set up pin directions
     DDRB = 0b00111111;
@@ -107,8 +109,8 @@ int main(){
 
     if (;;){
 	if (TCNT1 >= delay){       //poll timer
-	    TCNT = 0;
-	    PORTB ^= 1;            //loop runs 2x step speed
+	    TCNT = 0;              //loop runs at 2x step speed; for an
+	    PORTB ^= 1;            //always-symmetric square wave 
 	    inflation += bernanke; //introduce nonlinearity
 	    delay += inflation;    //slow motor in accordance w/prophecy
 	    if (delay > maxdelay){die (1);} //no point in running forever

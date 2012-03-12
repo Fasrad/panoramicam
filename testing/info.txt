@@ -1,3 +1,0 @@
-dissasemble: avr-objdump -S a.out
-convert .out to .hex: avr-objcopy -j .text -O ihex a.out helloWorld.hex
-comiple for atmega168: avr-gcc -Os -mmcu=atmega168 helloWorld.c 

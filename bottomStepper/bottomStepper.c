@@ -1,6 +1,7 @@
 /*-------|---------|---------|---------|---------|---------|---------|---------|
 bottomStepper.c	
 
+written for the ATMEGA 168 microcontroller and gcc compiler
 uses a unipolar stepper 
 rotates a platform at various speeds
 
@@ -106,7 +107,7 @@ void ustep(uint8_t me){
     Sinewave microstepping routine for unipolar stepper motor
     using an array instead of a giant switch statement. Unsure if this
     is actually any better at runtime. There is a good bit of overhead
-    here but it shouldn't matter at step frequencies < 1000hz. I 
+    here but it shouldn't matter at step frequencies < 1000hz. I think I
     liked the state machine better
     *********************************************************/
     //array of sinusoidal 8-bit PWM duty cycle values
