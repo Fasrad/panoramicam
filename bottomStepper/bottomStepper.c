@@ -14,14 +14,8 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
-This program written by chaz miller circa 2012
 ******************************************************************
-For derivation and explanation of all the magic numbers,
 see documentation panoramicalcs.ods
-PORTD maps to Arduino digital pins 0 to 7 
-PORTB maps to Arduino digital pins 8 to 13 
-PORTC maps to Arduino analog pins 0 to 5
 
 Set a bit
  bit_fld |= (1 << n)
@@ -41,14 +35,26 @@ Test a bit
 #include <util/delay.h>
 
 int main(){
-    uint16_t dly;           //delay between pulses, in timer clockticks
+    uint16_t dly;           //delay between steps, in timer clockticks
     uint8_t macrostate;     //which 'whole' step the motor is on 
     uint8_t microstate;     
 
+    //PD6=OC0A 8 bit
+    //PD5=OC0B
+    //PB3=OC2A 8 bit
+    //PD3=OC2B
+    //PB1=OC1A 16 bit
+    //PB2=OC1B
+
+    TCCR0B |= ((1 << CS10) | (1 << CS11)); //motor pins 1 and 2
+    TCCR2B |= ((1 << CS10) | (1 << CS11)); //3 and 4
+
+    TCCR1B |= ((1 << CS10) | (1 << CS11)); //step control timer
+
     //set up pin directions
-    DDRB = 0b00000011;
+    DDRB = 0xFF;
     DDRD = 0xFF;
-    DDRC = 1<<3;
+    DDRC = 0;
     
     //read in DIP; set speed setting; 
     if(PINC & 0b00000111 == 0){
@@ -76,10 +82,6 @@ int main(){
 	dly=7200;//.07854rad/s, 4hr revolution
     }
 
-    TCCR1B |= ((1 << CS10) | (1 << CS11)); // Set up timer at Fcpu/256
-    //16us; .016ms per tick; 1 second till overflow; .2% max error 
-    //check datasheet on this timer setup!  
-    //TCNT1 stores the value
 
     while(!(PINC &= 1<<7)){     //allow user to position camera
 	if(PINC &= 1<<3){
@@ -91,18 +93,21 @@ int main(){
 	delay(1);
     }//start button pressed, initiate pictionation sequence
 
+    TCNT0 = 0;
+    TCNT2 = 0;
     TCNT1 = 0;
 
     if (;;){
 	if (TCNT1 >= dly){       //poll timer
 	    TCNT1 = 0;
-	    ustep(1);
+	    ustep(2);
 	}
     }
 }//main
 
 void ustep(uint8_t me){
 
+    //1 is clockwise and 2 is anticlockwise 
     /********************************************************
     Sinewave microstepping routine for unipolar stepper motor
     using an array instead of a giant switch statement. Unsure if this
@@ -110,9 +115,6 @@ void ustep(uint8_t me){
     here but it shouldn't matter at step frequencies < 1000hz. I think I
     liked the state machine better
     *********************************************************/
-    //array of sinusoidal 8-bit PWM duty cycle values
-    //note; only indices up to 31 are legal for the microstate variable
-    //hardcoded duty cycles--index 0=0; 15=255; 31=0 again, and so on.
     uint8_t sinewave[32] = {0, 25, 50, 74, 98, 120, 142, 162, 180,\
     197, 212, 225, 236, 244, 250, 254, 255, 254, 250, 244, 236, 225,\
     212, 197, 180, 162, 142, 120, 98, 74, 50, 25, 0}; 
@@ -120,34 +122,38 @@ void ustep(uint8_t me){
     static uint8_t macrostate;
 
     //increment the microstate to step the motor
-    microstate++;
+    if (1==me){
+	microstate++;
+    } else if (2==me){
+	microstate--; //bug...I can't support this 
+    }
     if (microstate > 31){
 	microstate=0;
 	macrostate++;
     }
-    if (macrostate > 4){
+    if (macrostate > 3){
 	macrostate=0;
     }
-    if (1==macrostate){
-	TCCRwire1 = sinewave[microstate];
-	TCCRwire2 = sinewave[(microstate+15)%31];
-	TCCRwire3 = 0;
-	TCCRwire4 = 0;
+    if (0==macrostate){
+	OCR0A = sinewave[microstate];
+	OCR0B = sinewave[(microstate+15)%31];
+	OCR2A = 0;
+	OCR2B = 0;
+    } else if (1==macrostate){
+	OCR0A = 0;
+	OCR0B = sinewave[microstate];
+	OCR2A = sinewave[(microstate+15)%31];
+	OCR2B = 0;
     } else if (2==macrostate){
-	TCCRwire1 = 0;
-	TCCRwire2 = sinewave[microstate];
-	TCCRwire3 = sinewave[(microstate+15)%31];
-	TCCRwire4 = 0;
+	OCR0A = 0;
+	OCR0B = 0;
+	OCR2A = sinewave[microstate];
+	OCR2B = sinewave[(microstate+15)%31];
     } else if (3==macrostate){
-	TCCRwire1 = 0;
-	TCCRwire2 = 0;
-	TCCRwire3 = sinewave[microstate];
-	TCCRwire4 = sinewave[(microstate+15)%31];
-    } else if (4==macrostate){
-	TCCRwire1 = sinewave[(microstate+15)%31];
-	TCCRwire2 = 0;
-	TCCRwire3 = 0;
-	TCCRwire4 = sinewave[microstate];
+	OCR0A = sinewave[(microstate+15)%31];
+	OCR0B = 0;
+	OCR2A = 0;
+	OCR2B = sinewave[microstate];
     } else {die (5);}
 }//ustep
 
@@ -162,7 +168,7 @@ void step(uint8_t me){
 
     if (1==me){
 	state++;
-    } else if (0==me){
+    } else if (2==me){
 	state--;
     } else {die (6);}
 
@@ -190,7 +196,6 @@ void step(uint8_t me){
 
 void die (int me){
     for (;;){
-	//
 
     }
 

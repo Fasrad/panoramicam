@@ -4,7 +4,7 @@ Tests a unipolar stepper
 connected to Arduino pins 1-4
 using timer logic instead of _delay_ms()
 */ 
-#define blob 25
+#define blob 25 //milliseconds between full steps
 #define F_CPU 16000000UL //*16MHz*
 #include <avr/io.h>
 #include <util/delay.h>
