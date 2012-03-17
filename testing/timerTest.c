@@ -4,6 +4,7 @@ Tests a unipolar stepper
 connected to Arduino pins 1-4
 using timer logic instead of _delay_ms()
 */ 
+#define blob 25
 #define F_CPU 16000000UL //*16MHz*
 #include <avr/io.h>
 #include <util/delay.h>
@@ -42,7 +43,7 @@ int main(){
     TCCR1B |= ((1 << CS10) | (1 << CS11));
 
     while (1){
-	if (TCNT1 > 250) {// 250 clockticks /ms
+	if (TCNT1 > blob*250) {// 250 clockticks /ms
 	    TCNT1 = 0;      
 	    switch (state){
             case 0:

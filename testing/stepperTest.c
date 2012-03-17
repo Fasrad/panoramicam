@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 */ 
 
+#define blob 12
 #define F_CPU 16000000UL //*16MHz*
 #include <avr/io.h>
 #include <util/delay.h>
@@ -38,13 +39,13 @@ void die (int me){
 
 
 int main(){
-    uint16_t dly = 1500;           //delay between pulses, in ms
+    uint16_t dly = blob;           //delay between pulses, in ms
     uint8_t state;
 
     //set up pin directions
     DDRC = 0xFF;
     
- /*   while (1){
+   while (1){
 	switch (state){
 	    case 0:
 	    PORTC = 0b00000001;
@@ -72,7 +73,8 @@ int main(){
 	    break;
 	    default:
 	    die(2);
-	}*/
+	}
+	/*j
     while (1){
 	switch (state){
 	    case 0:
@@ -89,9 +91,9 @@ int main(){
 	    break;
 	    default:
 	    die(2);
-	}
+	}*/
 	delay(dly);
 	state++;
-	if(state>3){state=0;}
+	if(state>7){state=0;}
     }//infty if
 }//main
