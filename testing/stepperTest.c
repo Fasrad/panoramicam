@@ -2,7 +2,7 @@
 /*
 StepperTest
 Tests a unipolar stepper
-connected to Arduino pins 1-4
+connected to portC pins 0 through 3
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,13 +32,13 @@ void die (int me){
             PORTB |= 1<<6;
             delay(300);
 	}
-    delay(1500);
+    delay(100);
     }
 }
 
 
 int main(){
-    uint16_t dly = 500;           //delay between pulses, in ms
+    uint16_t dly = 1500;           //delay between pulses, in ms
     uint8_t state;
 
     //set up pin directions
