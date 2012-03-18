@@ -36,15 +36,12 @@ Test a bit
 
 int main(){
     uint16_t dly;           //delay between steps, in timer clockticks
-    uint8_t macrostate;     //which 'whole' step the motor is on 
-    uint8_t microstate;     
 
     //set up timers
     TCCR0A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 103
-    TCCR0B |= (1<<1);                       //F_CPU/8; page 105:8kHz
+    TCCR0B |= (1<<1);                       //F_CPU/8; page 105:8kHz@8bit
     TCCR2A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 153
     TCCR2B |= (3<<1);                       //F_CPU/8,  page 157
-
 
     //set up pin directions
     DDRB = 0xFF;
@@ -80,13 +77,13 @@ int main(){
 
     while(!(PINC &= 1<<7)){     //allow user to position camera
 	if(PINC &= 1<<3){
-	   step(1);
+	   ustep(1);
 	}
 	if(PINC &= 1<<4){
-	   step(2);
+	   ustep(2);
 	}
 	delay(1);
-    }//start button pressed, initiate pictionation sequence
+    }//start button pressed; initiate pictionation sequence
 
     TCNT1 = 0;
 
@@ -183,6 +180,13 @@ void step(uint8_t me){
 	break;
     }
 }//step
+
+void delay(uint16_t me){
+    while(me){
+	_delay_ms--;
+    }
+
+}
 
 void die (int me){
     for (;;){
