@@ -40,35 +40,42 @@ int main(){
     uint8_t microstate;     
 
     //set up timers
-    TCCR0A |= (1<<7)|(1<<5)|(1);     //phase correct PWM; page 103
-    TCCR0B |= (1<<2);                //F_CPU/256; page 105
-    TCCR2A |= (1<<7)|(1<<5)|(1);     //phase correct PWM; page 150sh
-    TCCR2B |= (3<<1);                //F_CPU/256, page 157
+    TCCR0A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 103
+    TCCR0B |= (1<<1);                       //F_CPU/8; page 105:8kHz
+    TCCR2A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 153
+    TCCR2B |= (3<<1);                       //F_CPU/8,  page 157
 
-    TCCR1B |= (1<<2);                //F_CPU/256; page 133
 
     //set up pin directions
     DDRB = 0xFF;
     DDRD = 0xFF;
     DDRC = 0;
     
-    //read in DIP; set speed setting; 
-    if(PINC & 0b00000111 == 0){
-	dly=64;//.6283rad/s, 8s revolution
-    } else if (PINC & 0b00000111 == 1){
-	dly=32;//.3142rad/s, 16s revolution
-    } else if (PINC & 0b00000111 == 2){
-	dly=16;//.1571rad/s, 32s revolution
-    } else if (PINC & 0b00000111 == 3){
-	dly=8;//.07854rad/s, 62s revolution
-    } else if (PINC & 0b00000111 == 4){
-	dly=600;//.07854rad/s, 10min revolution
-    } else if (PINC & 0b00000111 == 5){
-	dly=3200;//.07854rad/s, 1hr revolution
-    } else if (PINC & 0b00000111 == 6){
-	dly=7200;//.07854rad/s, 2hr revolution
-    } else if (PINC & 0b00000111 == 7){
-	dly=7200;//.07854rad/s, 4hr revolution
+    //read in DIP; set appropriate timer setup; 
+    if(PINC << 4  == 0){
+	dly=6667;//8s revolution
+	TCCR1B |= (1);        //F_CPU/1; page 133; 
+    } else if (PINC << 4 == 16){
+	dly=13333;//16s revolution
+	TCCR1B |= (1);        //F_CPU/1
+    } else if (PINC << 4 == 32){
+	dly=3333;//32s revolution
+	TCCR1B |= (1<<1);        //F_CPU/8
+    } else if (PINC << 4 == 48){
+	dly=6667;//64s revolution
+	TCCR1B |= (1<<1);        //F_CPU/8
+    } else if (PINC << 4 == 64){
+	dly=7812;//10min revolution
+	TCCR1B |= (1<<2);        //F_CPU/64
+    } else if (PINC << 4 == 80){
+	dly=46875;//1hr revolution
+	TCCR1B |= (1<<2);        //F_CPU/64
+    } else if (PINC << 4 == 96){
+	dly=5859;//2hr revolution
+	TCCR1B |= (5);        //F_CPU/1024
+    } else if (PINC << 4 == 112){
+	dly=11718;//4hr revolution
+	TCCR1B |= (5);        //F_CPU/1024
     } else {die 10;}
 
     while(!(PINC &= 1<<7)){     //allow user to position camera
@@ -95,52 +102,48 @@ void ustep(uint8_t me){
 
     //1 is clockwise and 2 is anticlockwise 
     /********************************************************
-    Sinewave microstepping routine for unipolar stepper motor
-    using an array instead of a giant switch statement. Unsure if this
-    is actually any better at runtime. There is a good bit of overhead
-    here but it shouldn't matter at step frequencies < 1000hz. I think I
-    liked the state machine better
+    Sinewave output routine for unipolar stepper motor
+    Effectively equates to PCM output with 8-bit word depth and
+    dynamic sample rate of f * 64 
     *********************************************************/
     uint8_t sinewave[32] = {0, 25, 50, 74, 98, 120, 142, 162, 180,\
     197, 212, 225, 236, 244, 250, 254, 255, 254, 250, 244, 236, 225,\
     212, 197, 180, 162, 142, 120, 98, 74, 50, 25}; 
 
-    static uint8_t microstate;
-    static uint8_t macrostate;
+    static uint8_t state; 
+    //least significant nybble of state tracks the microstate. Most significant
+    //nybble tracks which 'macrostate' the system is in. This is necessary
+    //because we have to switch output pin polarity every 90 degrees or 32 
+    //microstates
 
     //increment the microstate to step the motor
     if (1==me){
-	microstate++;
+	state++;
     } else if (2==me){
-	microstate--; 
+	state--; 
     }
-    if (microstate > 31){
-	microstate=0;
-	macrostate++;
-    }
-    if (macrostate > 3){
-	macrostate=0;
-    }
-    if (0==macrostate){
-	OCR0A = sinewave[microstate];
-	OCR0B = sinewave[(microstate+15)%31];
+
+    //write out the PWM; depending on the macrostate
+    if (0==((state>>4)%4)){
+	OCR0A = sinewave[microstate%16];
+	OCR0B = sinewave[(microstate+16)%32];
 	OCR2A = 0;
 	OCR2B = 0;
-    } else if (1==macrostate){
+    } else if (1==((state>>4)%4)){
 	OCR0A = 0;
-	OCR0B = sinewave[microstate];
-	OCR2A = sinewave[(microstate+15)%31];
+	OCR0B = sinewave[microstate%16];
+	OCR2A = sinewave[(microstate+16)%32];
 	OCR2B = 0;
-    } else if (2==macrostate){
+    } else if (2==((state>>4)%4)){
 	OCR0A = 0;
 	OCR0B = 0;
-	OCR2A = sinewave[microstate];
-	OCR2B = sinewave[(microstate+15)%31];
-    } else if (3==macrostate){
-	OCR0A = sinewave[(microstate+15)%31];
+	OCR2A = sinewave[microstate%16];
+	OCR2B = sinewave[(microstate+16)%32];
+    } else if (3==((state>>4)%4)){
+	OCR0A = sinewave[(microstate+16)%32];
 	OCR0B = 0;
 	OCR2A = 0;
-	OCR2B = sinewave[microstate];
+	OCR2B = sinewave[microstate%16];
     } else {die (5);}
 }//ustep
 

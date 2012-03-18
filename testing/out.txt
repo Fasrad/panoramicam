@@ -1,1028 +1,522 @@
-index 0
-index mod32 0
-index 1
-index mod32 1
-index 2
-index mod32 2
-index 3
-index mod32 3
-index 4
-index mod32 4
-index 5
-index mod32 5
-index 6
-index mod32 6
-index 7
-index mod32 7
-index 8
-index mod32 8
-index 9
-index mod32 9
-index 10
-index mod32 10
-index 11
-index mod32 11
-index 12
-index mod32 12
-index 13
-index mod32 13
-index 14
-index mod32 14
-index 15
-index mod32 15
-index 16
-index mod32 16
-index 17
-index mod32 17
-index 18
-index mod32 18
-index 19
-index mod32 19
-index 20
-index mod32 20
-index 21
-index mod32 21
-index 22
-index mod32 22
-index 23
-index mod32 23
-index 24
-index mod32 24
-index 25
-index mod32 25
-index 26
-index mod32 26
-index 27
-index mod32 27
-index 28
-index mod32 28
-index 29
-index mod32 29
-index 30
-index mod32 30
-index 31
-index mod32 31
-index 32
-index mod32 0
-index 33
-index mod32 1
-index 34
-index mod32 2
-index 35
-index mod32 3
-index 36
-index mod32 4
-index 37
-index mod32 5
-index 38
-index mod32 6
-index 39
-index mod32 7
-index 40
-index mod32 8
-index 41
-index mod32 9
-index 42
-index mod32 10
-index 43
-index mod32 11
-index 44
-index mod32 12
-index 45
-index mod32 13
-index 46
-index mod32 14
-index 47
-index mod32 15
-index 48
-index mod32 16
-index 49
-index mod32 17
-index 50
-index mod32 18
-index 51
-index mod32 19
-index 52
-index mod32 20
-index 53
-index mod32 21
-index 54
-index mod32 22
-index 55
-index mod32 23
-index 56
-index mod32 24
-index 57
-index mod32 25
-index 58
-index mod32 26
-index 59
-index mod32 27
-index 60
-index mod32 28
-index 61
-index mod32 29
-index 62
-index mod32 30
-index 63
-index mod32 31
-index 64
-index mod32 0
-index 65
-index mod32 1
-index 66
-index mod32 2
-index 67
-index mod32 3
-index 68
-index mod32 4
-index 69
-index mod32 5
-index 70
-index mod32 6
-index 71
-index mod32 7
-index 72
-index mod32 8
-index 73
-index mod32 9
-index 74
-index mod32 10
-index 75
-index mod32 11
-index 76
-index mod32 12
-index 77
-index mod32 13
-index 78
-index mod32 14
-index 79
-index mod32 15
-index 80
-index mod32 16
-index 81
-index mod32 17
-index 82
-index mod32 18
-index 83
-index mod32 19
-index 84
-index mod32 20
-index 85
-index mod32 21
-index 86
-index mod32 22
-index 87
-index mod32 23
-index 88
-index mod32 24
-index 89
-index mod32 25
-index 90
-index mod32 26
-index 91
-index mod32 27
-index 92
-index mod32 28
-index 93
-index mod32 29
-index 94
-index mod32 30
-index 95
-index mod32 31
-index 96
-index mod32 0
-index 97
-index mod32 1
-index 98
-index mod32 2
-index 99
-index mod32 3
-index 100
-index mod32 4
-index 101
-index mod32 5
-index 102
-index mod32 6
-index 103
-index mod32 7
-index 104
-index mod32 8
-index 105
-index mod32 9
-index 106
-index mod32 10
-index 107
-index mod32 11
-index 108
-index mod32 12
-index 109
-index mod32 13
-index 110
-index mod32 14
-index 111
-index mod32 15
-index 112
-index mod32 16
-index 113
-index mod32 17
-index 114
-index mod32 18
-index 115
-index mod32 19
-index 116
-index mod32 20
-index 117
-index mod32 21
-index 118
-index mod32 22
-index 119
-index mod32 23
-index 120
-index mod32 24
-index 121
-index mod32 25
-index 122
-index mod32 26
-index 123
-index mod32 27
-index 124
-index mod32 28
-index 125
-index mod32 29
-index 126
-index mod32 30
-index 127
-index mod32 31
-index 128
-index mod32 0
-index 129
-index mod32 1
-index 130
-index mod32 2
-index 131
-index mod32 3
-index 132
-index mod32 4
-index 133
-index mod32 5
-index 134
-index mod32 6
-index 135
-index mod32 7
-index 136
-index mod32 8
-index 137
-index mod32 9
-index 138
-index mod32 10
-index 139
-index mod32 11
-index 140
-index mod32 12
-index 141
-index mod32 13
-index 142
-index mod32 14
-index 143
-index mod32 15
-index 144
-index mod32 16
-index 145
-index mod32 17
-index 146
-index mod32 18
-index 147
-index mod32 19
-index 148
-index mod32 20
-index 149
-index mod32 21
-index 150
-index mod32 22
-index 151
-index mod32 23
-index 152
-index mod32 24
-index 153
-index mod32 25
-index 154
-index mod32 26
-index 155
-index mod32 27
-index 156
-index mod32 28
-index 157
-index mod32 29
-index 158
-index mod32 30
-index 159
-index mod32 31
-index 160
-index mod32 0
-index 161
-index mod32 1
-index 162
-index mod32 2
-index 163
-index mod32 3
-index 164
-index mod32 4
-index 165
-index mod32 5
-index 166
-index mod32 6
-index 167
-index mod32 7
-index 168
-index mod32 8
-index 169
-index mod32 9
-index 170
-index mod32 10
-index 171
-index mod32 11
-index 172
-index mod32 12
-index 173
-index mod32 13
-index 174
-index mod32 14
-index 175
-index mod32 15
-index 176
-index mod32 16
-index 177
-index mod32 17
-index 178
-index mod32 18
-index 179
-index mod32 19
-index 180
-index mod32 20
-index 181
-index mod32 21
-index 182
-index mod32 22
-index 183
-index mod32 23
-index 184
-index mod32 24
-index 185
-index mod32 25
-index 186
-index mod32 26
-index 187
-index mod32 27
-index 188
-index mod32 28
-index 189
-index mod32 29
-index 190
-index mod32 30
-index 191
-index mod32 31
-index 192
-index mod32 0
-index 193
-index mod32 1
-index 194
-index mod32 2
-index 195
-index mod32 3
-index 196
-index mod32 4
-index 197
-index mod32 5
-index 198
-index mod32 6
-index 199
-index mod32 7
-index 200
-index mod32 8
-index 201
-index mod32 9
-index 202
-index mod32 10
-index 203
-index mod32 11
-index 204
-index mod32 12
-index 205
-index mod32 13
-index 206
-index mod32 14
-index 207
-index mod32 15
-index 208
-index mod32 16
-index 209
-index mod32 17
-index 210
-index mod32 18
-index 211
-index mod32 19
-index 212
-index mod32 20
-index 213
-index mod32 21
-index 214
-index mod32 22
-index 215
-index mod32 23
-index 216
-index mod32 24
-index 217
-index mod32 25
-index 218
-index mod32 26
-index 219
-index mod32 27
-index 220
-index mod32 28
-index 221
-index mod32 29
-index 222
-index mod32 30
-index 223
-index mod32 31
-index 224
-index mod32 0
-index 225
-index mod32 1
-index 226
-index mod32 2
-index 227
-index mod32 3
-index 228
-index mod32 4
-index 229
-index mod32 5
-index 230
-index mod32 6
-index 231
-index mod32 7
-index 232
-index mod32 8
-index 233
-index mod32 9
-index 234
-index mod32 10
-index 235
-index mod32 11
-index 236
-index mod32 12
-index 237
-index mod32 13
-index 238
-index mod32 14
-index 239
-index mod32 15
-index 240
-index mod32 16
-index 241
-index mod32 17
-index 242
-index mod32 18
-index 243
-index mod32 19
-index 244
-index mod32 20
-index 245
-index mod32 21
-index 246
-index mod32 22
-index 247
-index mod32 23
-index 248
-index mod32 24
-index 249
-index mod32 25
-index 250
-index mod32 26
-index 251
-index mod32 27
-index 252
-index mod32 28
-index 253
-index mod32 29
-index 254
-index mod32 30
-index 255
-index mod32 31
-index 0
-index mod32 0
-index 1
-index mod32 1
-index 0
-index mod32 0
-index 255
-index mod32 31
-index 254
-index mod32 30
-index 253
-index mod32 29
-index 252
-index mod32 28
-index 251
-index mod32 27
-index 250
-index mod32 26
-index 249
-index mod32 25
-index 248
-index mod32 24
-index 247
-index mod32 23
-index 246
-index mod32 22
-index 245
-index mod32 21
-index 244
-index mod32 20
-index 243
-index mod32 19
-index 242
-index mod32 18
-index 241
-index mod32 17
-index 240
-index mod32 16
-index 239
-index mod32 15
-index 238
-index mod32 14
-index 237
-index mod32 13
-index 236
-index mod32 12
-index 235
-index mod32 11
-index 234
-index mod32 10
-index 233
-index mod32 9
-index 232
-index mod32 8
-index 231
-index mod32 7
-index 230
-index mod32 6
-index 229
-index mod32 5
-index 228
-index mod32 4
-index 227
-index mod32 3
-index 226
-index mod32 2
-index 225
-index mod32 1
-index 224
-index mod32 0
-index 223
-index mod32 31
-index 222
-index mod32 30
-index 221
-index mod32 29
-index 220
-index mod32 28
-index 219
-index mod32 27
-index 218
-index mod32 26
-index 217
-index mod32 25
-index 216
-index mod32 24
-index 215
-index mod32 23
-index 214
-index mod32 22
-index 213
-index mod32 21
-index 212
-index mod32 20
-index 211
-index mod32 19
-index 210
-index mod32 18
-index 209
-index mod32 17
-index 208
-index mod32 16
-index 207
-index mod32 15
-index 206
-index mod32 14
-index 205
-index mod32 13
-index 204
-index mod32 12
-index 203
-index mod32 11
-index 202
-index mod32 10
-index 201
-index mod32 9
-index 200
-index mod32 8
-index 199
-index mod32 7
-index 198
-index mod32 6
-index 197
-index mod32 5
-index 196
-index mod32 4
-index 195
-index mod32 3
-index 194
-index mod32 2
-index 193
-index mod32 1
-index 192
-index mod32 0
-index 191
-index mod32 31
-index 190
-index mod32 30
-index 189
-index mod32 29
-index 188
-index mod32 28
-index 187
-index mod32 27
-index 186
-index mod32 26
-index 185
-index mod32 25
-index 184
-index mod32 24
-index 183
-index mod32 23
-index 182
-index mod32 22
-index 181
-index mod32 21
-index 180
-index mod32 20
-index 179
-index mod32 19
-index 178
-index mod32 18
-index 177
-index mod32 17
-index 176
-index mod32 16
-index 175
-index mod32 15
-index 174
-index mod32 14
-index 173
-index mod32 13
-index 172
-index mod32 12
-index 171
-index mod32 11
-index 170
-index mod32 10
-index 169
-index mod32 9
-index 168
-index mod32 8
-index 167
-index mod32 7
-index 166
-index mod32 6
-index 165
-index mod32 5
-index 164
-index mod32 4
-index 163
-index mod32 3
-index 162
-index mod32 2
-index 161
-index mod32 1
-index 160
-index mod32 0
-index 159
-index mod32 31
-index 158
-index mod32 30
-index 157
-index mod32 29
-index 156
-index mod32 28
-index 155
-index mod32 27
-index 154
-index mod32 26
-index 153
-index mod32 25
-index 152
-index mod32 24
-index 151
-index mod32 23
-index 150
-index mod32 22
-index 149
-index mod32 21
-index 148
-index mod32 20
-index 147
-index mod32 19
-index 146
-index mod32 18
-index 145
-index mod32 17
-index 144
-index mod32 16
-index 143
-index mod32 15
-index 142
-index mod32 14
-index 141
-index mod32 13
-index 140
-index mod32 12
-index 139
-index mod32 11
-index 138
-index mod32 10
-index 137
-index mod32 9
-index 136
-index mod32 8
-index 135
-index mod32 7
-index 134
-index mod32 6
-index 133
-index mod32 5
-index 132
-index mod32 4
-index 131
-index mod32 3
-index 130
-index mod32 2
-index 129
-index mod32 1
-index 128
-index mod32 0
-index 127
-index mod32 31
-index 126
-index mod32 30
-index 125
-index mod32 29
-index 124
-index mod32 28
-index 123
-index mod32 27
-index 122
-index mod32 26
-index 121
-index mod32 25
-index 120
-index mod32 24
-index 119
-index mod32 23
-index 118
-index mod32 22
-index 117
-index mod32 21
-index 116
-index mod32 20
-index 115
-index mod32 19
-index 114
-index mod32 18
-index 113
-index mod32 17
-index 112
-index mod32 16
-index 111
-index mod32 15
-index 110
-index mod32 14
-index 109
-index mod32 13
-index 108
-index mod32 12
-index 107
-index mod32 11
-index 106
-index mod32 10
-index 105
-index mod32 9
-index 104
-index mod32 8
-index 103
-index mod32 7
-index 102
-index mod32 6
-index 101
-index mod32 5
-index 100
-index mod32 4
-index 99
-index mod32 3
-index 98
-index mod32 2
-index 97
-index mod32 1
-index 96
-index mod32 0
-index 95
-index mod32 31
-index 94
-index mod32 30
-index 93
-index mod32 29
-index 92
-index mod32 28
-index 91
-index mod32 27
-index 90
-index mod32 26
-index 89
-index mod32 25
-index 88
-index mod32 24
-index 87
-index mod32 23
-index 86
-index mod32 22
-index 85
-index mod32 21
-index 84
-index mod32 20
-index 83
-index mod32 19
-index 82
-index mod32 18
-index 81
-index mod32 17
-index 80
-index mod32 16
-index 79
-index mod32 15
-index 78
-index mod32 14
-index 77
-index mod32 13
-index 76
-index mod32 12
-index 75
-index mod32 11
-index 74
-index mod32 10
-index 73
-index mod32 9
-index 72
-index mod32 8
-index 71
-index mod32 7
-index 70
-index mod32 6
-index 69
-index mod32 5
-index 68
-index mod32 4
-index 67
-index mod32 3
-index 66
-index mod32 2
-index 65
-index mod32 1
-index 64
-index mod32 0
-index 63
-index mod32 31
-index 62
-index mod32 30
-index 61
-index mod32 29
-index 60
-index mod32 28
-index 59
-index mod32 27
-index 58
-index mod32 26
-index 57
-index mod32 25
-index 56
-index mod32 24
-index 55
-index mod32 23
-index 54
-index mod32 22
-index 53
-index mod32 21
-index 52
-index mod32 20
-index 51
-index mod32 19
-index 50
-index mod32 18
-index 49
-index mod32 17
-index 48
-index mod32 16
-index 47
-index mod32 15
-index 46
-index mod32 14
-index 45
-index mod32 13
-index 44
-index mod32 12
-index 43
-index mod32 11
-index 42
-index mod32 10
-index 41
-index mod32 9
-index 40
-index mod32 8
-index 39
-index mod32 7
-index 38
-index mod32 6
-index 37
-index mod32 5
-index 36
-index mod32 4
-index 35
-index mod32 3
-index 34
-index mod32 2
-index 33
-index mod32 1
-index 32
-index mod32 0
-index 31
-index mod32 31
-index 30
-index mod32 30
-index 29
-index mod32 29
-index 28
-index mod32 28
-index 27
-index mod32 27
-index 26
-index mod32 26
-index 25
-index mod32 25
-index 24
-index mod32 24
-index 23
-index mod32 23
-index 22
-index mod32 22
-index 21
-index mod32 21
-index 20
-index mod32 20
-index 19
-index mod32 19
-index 18
-index mod32 18
-index 17
-index mod32 17
-index 16
-index mod32 16
-index 15
-index mod32 15
-index 14
-index mod32 14
-index 13
-index mod32 13
-index 12
-index mod32 12
-index 11
-index mod32 11
-index 10
-index mod32 10
-index 9
-index mod32 9
-index 8
-index mod32 8
-index 7
-index mod32 7
-index 6
-index mod32 6
-index 5
-index mod32 5
-index 4
-index mod32 4
-index 3
-index mod32 3
-index 2
-index mod32 2
-index 1
-index mod32 1
+state%32		state+16%32		state>>4%4		state
+
+0	16	0	0
+1	17	0	1
+2	18	0	2
+3	19	0	3
+4	20	0	4
+5	21	0	5
+6	22	0	6
+7	23	0	7
+8	24	0	8
+9	25	0	9
+10	26	0	10
+11	27	0	11
+12	28	0	12
+13	29	0	13
+14	30	0	14
+15	31	0	15
+16	0	1	16
+17	1	1	17
+18	2	1	18
+19	3	1	19
+20	4	1	20
+21	5	1	21
+22	6	1	22
+23	7	1	23
+24	8	1	24
+25	9	1	25
+26	10	1	26
+27	11	1	27
+28	12	1	28
+29	13	1	29
+30	14	1	30
+31	15	1	31
+0	16	2	32
+1	17	2	33
+2	18	2	34
+3	19	2	35
+4	20	2	36
+5	21	2	37
+6	22	2	38
+7	23	2	39
+8	24	2	40
+9	25	2	41
+10	26	2	42
+11	27	2	43
+12	28	2	44
+13	29	2	45
+14	30	2	46
+15	31	2	47
+16	0	3	48
+17	1	3	49
+18	2	3	50
+19	3	3	51
+20	4	3	52
+21	5	3	53
+22	6	3	54
+23	7	3	55
+24	8	3	56
+25	9	3	57
+26	10	3	58
+27	11	3	59
+28	12	3	60
+29	13	3	61
+30	14	3	62
+31	15	3	63
+0	16	0	64
+1	17	0	65
+2	18	0	66
+3	19	0	67
+4	20	0	68
+5	21	0	69
+6	22	0	70
+7	23	0	71
+8	24	0	72
+9	25	0	73
+10	26	0	74
+11	27	0	75
+12	28	0	76
+13	29	0	77
+14	30	0	78
+15	31	0	79
+16	0	1	80
+17	1	1	81
+18	2	1	82
+19	3	1	83
+20	4	1	84
+21	5	1	85
+22	6	1	86
+23	7	1	87
+24	8	1	88
+25	9	1	89
+26	10	1	90
+27	11	1	91
+28	12	1	92
+29	13	1	93
+30	14	1	94
+31	15	1	95
+0	16	2	96
+1	17	2	97
+2	18	2	98
+3	19	2	99
+4	20	2	100
+5	21	2	101
+6	22	2	102
+7	23	2	103
+8	24	2	104
+9	25	2	105
+10	26	2	106
+11	27	2	107
+12	28	2	108
+13	29	2	109
+14	30	2	110
+15	31	2	111
+16	0	3	112
+17	1	3	113
+18	2	3	114
+19	3	3	115
+20	4	3	116
+21	5	3	117
+22	6	3	118
+23	7	3	119
+24	8	3	120
+25	9	3	121
+26	10	3	122
+27	11	3	123
+28	12	3	124
+29	13	3	125
+30	14	3	126
+31	15	3	127
+0	16	0	128
+1	17	0	129
+2	18	0	130
+3	19	0	131
+4	20	0	132
+5	21	0	133
+6	22	0	134
+7	23	0	135
+8	24	0	136
+9	25	0	137
+10	26	0	138
+11	27	0	139
+12	28	0	140
+13	29	0	141
+14	30	0	142
+15	31	0	143
+16	0	1	144
+17	1	1	145
+18	2	1	146
+19	3	1	147
+20	4	1	148
+21	5	1	149
+22	6	1	150
+23	7	1	151
+24	8	1	152
+25	9	1	153
+26	10	1	154
+27	11	1	155
+28	12	1	156
+29	13	1	157
+30	14	1	158
+31	15	1	159
+0	16	2	160
+1	17	2	161
+2	18	2	162
+3	19	2	163
+4	20	2	164
+5	21	2	165
+6	22	2	166
+7	23	2	167
+8	24	2	168
+9	25	2	169
+10	26	2	170
+11	27	2	171
+12	28	2	172
+13	29	2	173
+14	30	2	174
+15	31	2	175
+16	0	3	176
+17	1	3	177
+18	2	3	178
+19	3	3	179
+20	4	3	180
+21	5	3	181
+22	6	3	182
+23	7	3	183
+24	8	3	184
+25	9	3	185
+26	10	3	186
+27	11	3	187
+28	12	3	188
+29	13	3	189
+30	14	3	190
+31	15	3	191
+0	16	0	192
+1	17	0	193
+2	18	0	194
+3	19	0	195
+4	20	0	196
+5	21	0	197
+6	22	0	198
+7	23	0	199
+8	24	0	200
+9	25	0	201
+10	26	0	202
+11	27	0	203
+12	28	0	204
+13	29	0	205
+14	30	0	206
+15	31	0	207
+16	0	1	208
+17	1	1	209
+18	2	1	210
+19	3	1	211
+20	4	1	212
+21	5	1	213
+22	6	1	214
+23	7	1	215
+24	8	1	216
+25	9	1	217
+26	10	1	218
+27	11	1	219
+28	12	1	220
+29	13	1	221
+30	14	1	222
+31	15	1	223
+0	16	2	224
+1	17	2	225
+2	18	2	226
+3	19	2	227
+4	20	2	228
+5	21	2	229
+6	22	2	230
+7	23	2	231
+8	24	2	232
+9	25	2	233
+10	26	2	234
+11	27	2	235
+12	28	2	236
+13	29	2	237
+14	30	2	238
+15	31	2	239
+16	0	3	240
+17	1	3	241
+18	2	3	242
+19	3	3	243
+20	4	3	244
+21	5	3	245
+22	6	3	246
+23	7	3	247
+24	8	3	248
+25	9	3	249
+26	10	3	250
+27	11	3	251
+28	12	3	252
+29	13	3	253
+30	14	3	254
+31	15	3	255
+0	16	0	0
+1	17	0	1
+2	18	0	2
+3	19	0	3
+4	20	0	4
+3	19	0	3
+2	18	0	2
+1	17	0	1
+0	16	0	0
+31	15	3	255
+30	14	3	254
+29	13	3	253
+28	12	3	252
+27	11	3	251
+26	10	3	250
+25	9	3	249
+24	8	3	248
+23	7	3	247
+22	6	3	246
+21	5	3	245
+20	4	3	244
+19	3	3	243
+18	2	3	242
+17	1	3	241
+16	0	3	240
+15	31	2	239
+14	30	2	238
+13	29	2	237
+12	28	2	236
+11	27	2	235
+10	26	2	234
+9	25	2	233
+8	24	2	232
+7	23	2	231
+6	22	2	230
+5	21	2	229
+4	20	2	228
+3	19	2	227
+2	18	2	226
+1	17	2	225
+0	16	2	224
+31	15	1	223
+30	14	1	222
+29	13	1	221
+28	12	1	220
+27	11	1	219
+26	10	1	218
+25	9	1	217
+24	8	1	216
+23	7	1	215
+22	6	1	214
+21	5	1	213
+20	4	1	212
+19	3	1	211
+18	2	1	210
+17	1	1	209
+16	0	1	208
+15	31	0	207
+14	30	0	206
+13	29	0	205
+12	28	0	204
+11	27	0	203
+10	26	0	202
+9	25	0	201
+8	24	0	200
+7	23	0	199
+6	22	0	198
+5	21	0	197
+4	20	0	196
+3	19	0	195
+2	18	0	194
+1	17	0	193
+0	16	0	192
+31	15	3	191
+30	14	3	190
+29	13	3	189
+28	12	3	188
+27	11	3	187
+26	10	3	186
+25	9	3	185
+24	8	3	184
+23	7	3	183
+22	6	3	182
+21	5	3	181
+20	4	3	180
+19	3	3	179
+18	2	3	178
+17	1	3	177
+16	0	3	176
+15	31	2	175
+14	30	2	174
+13	29	2	173
+12	28	2	172
+11	27	2	171
+10	26	2	170
+9	25	2	169
+8	24	2	168
+7	23	2	167
+6	22	2	166
+5	21	2	165
+4	20	2	164
+3	19	2	163
+2	18	2	162
+1	17	2	161
+0	16	2	160
+31	15	1	159
+30	14	1	158
+29	13	1	157
+28	12	1	156
+27	11	1	155
+26	10	1	154
+25	9	1	153
+24	8	1	152
+23	7	1	151
+22	6	1	150
+21	5	1	149
+20	4	1	148
+19	3	1	147
+18	2	1	146
+17	1	1	145
+16	0	1	144
+15	31	0	143
+14	30	0	142
+13	29	0	141
+12	28	0	140
+11	27	0	139
+10	26	0	138
+9	25	0	137
+8	24	0	136
+7	23	0	135
+6	22	0	134
+5	21	0	133
+4	20	0	132
+3	19	0	131
+2	18	0	130
+1	17	0	129
+0	16	0	128
+31	15	3	127
+30	14	3	126
+29	13	3	125
+28	12	3	124
+27	11	3	123
+26	10	3	122
+25	9	3	121
+24	8	3	120
+23	7	3	119
+22	6	3	118
+21	5	3	117
+20	4	3	116
+19	3	3	115
+18	2	3	114
+17	1	3	113
+16	0	3	112
+15	31	2	111
+14	30	2	110
+13	29	2	109
+12	28	2	108
+11	27	2	107
+10	26	2	106
+9	25	2	105
+8	24	2	104
+7	23	2	103
+6	22	2	102
+5	21	2	101
+4	20	2	100
+3	19	2	99
+2	18	2	98
+1	17	2	97
+0	16	2	96
+31	15	1	95
+30	14	1	94
+29	13	1	93
+28	12	1	92
+27	11	1	91
+26	10	1	90
+25	9	1	89
+24	8	1	88
+23	7	1	87
+22	6	1	86
+21	5	1	85
+20	4	1	84
+19	3	1	83
+18	2	1	82
+17	1	1	81
+16	0	1	80
+15	31	0	79
+14	30	0	78
+13	29	0	77
+12	28	0	76
+11	27	0	75
+10	26	0	74
+9	25	0	73
+8	24	0	72
+7	23	0	71
+6	22	0	70
+5	21	0	69
+4	20	0	68
+3	19	0	67
+2	18	0	66
+1	17	0	65
+0	16	0	64
+31	15	3	63
+30	14	3	62
+29	13	3	61
+28	12	3	60
+27	11	3	59
+26	10	3	58
+25	9	3	57
+24	8	3	56
+23	7	3	55
+22	6	3	54
+21	5	3	53
+20	4	3	52
+19	3	3	51
+18	2	3	50
+17	1	3	49
+16	0	3	48
+15	31	2	47
+14	30	2	46
+13	29	2	45
+12	28	2	44
+11	27	2	43
+10	26	2	42
+9	25	2	41
+8	24	2	40
+7	23	2	39
+6	22	2	38
+5	21	2	37
+4	20	2	36
+3	19	2	35
+2	18	2	34
+1	17	2	33
+0	16	2	32
+31	15	1	31
+30	14	1	30
+29	13	1	29
+28	12	1	28
+27	11	1	27
+26	10	1	26
+25	9	1	25
+24	8	1	24
+23	7	1	23
+22	6	1	22
+21	5	1	21
+20	4	1	20
+19	3	1	19
+18	2	1	18
+17	1	1	17
+16	0	1	16
+15	31	0	15
+14	30	0	14
+13	29	0	13
+12	28	0	12
+11	27	0	11
+10	26	0	10
+9	25	0	9
+8	24	0	8
+7	23	0	7
+6	22	0	6
+5	21	0	5
+4	20	0	4
+3	19	0	3
+2	18	0	2
+1	17	0	1
