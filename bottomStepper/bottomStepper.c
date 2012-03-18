@@ -1,7 +1,7 @@
 /*-------|---------|---------|---------|---------|---------|---------|---------|
 bottomStepper.c	
 
-written for the ATMEGA 168 microcontroller and gcc compiler
+written for the ATMEGA 168 microcontroller and avr-gcc compiler
 uses a unipolar stepper 
 rotates a platform at various speeds
 
@@ -39,17 +39,13 @@ int main(){
     uint8_t macrostate;     //which 'whole' step the motor is on 
     uint8_t microstate;     
 
-    //PD6=OC0A 8 bit
-    //PD5=OC0B
-    //PB3=OC2A 8 bit
-    //PD3=OC2B
-    //PB1=OC1A 16 bit
-    //PB2=OC1B
+    //set up timers
+    TCCR0A |= (1<<7)|(1<<5)|(1);     //phase correct PWM; page 103
+    TCCR0B |= (1<<2);                //F_CPU/256; page 105
+    TCCR2A |= (1<<7)|(1<<5)|(1);     //phase correct PWM; page 150sh
+    TCCR2B |= (3<<1);                //F_CPU/256, page 157
 
-    TCCR0B |= ((1 << CS10) | (1 << CS11)); //motor pins 1 and 2
-    TCCR2B |= ((1 << CS10) | (1 << CS11)); //3 and 4
-
-    TCCR1B |= ((1 << CS10) | (1 << CS11)); //step control timer
+    TCCR1B |= (1<<2);                //F_CPU/256; page 133
 
     //set up pin directions
     DDRB = 0xFF;
@@ -59,29 +55,21 @@ int main(){
     //read in DIP; set speed setting; 
     if(PINC & 0b00000111 == 0){
 	dly=64;//.6283rad/s, 8s revolution
-    }
-    if(PINC & 0b00000111 == 1){
+    } else if (PINC & 0b00000111 == 1){
 	dly=32;//.3142rad/s, 16s revolution
-    }
-    if(PINC & 0b00000111 == 2){
+    } else if (PINC & 0b00000111 == 2){
 	dly=16;//.1571rad/s, 32s revolution
-    }
-    if(PINC & 0b00000111 == 3){
+    } else if (PINC & 0b00000111 == 3){
 	dly=8;//.07854rad/s, 62s revolution
-    }
-    if(PINC & 0b00000111 == 4){
+    } else if (PINC & 0b00000111 == 4){
 	dly=600;//.07854rad/s, 10min revolution
-    }
-    if(PINC & 0b00000111 == 5){
+    } else if (PINC & 0b00000111 == 5){
 	dly=3200;//.07854rad/s, 1hr revolution
-    }
-    if(PINC & 0b00000111 == 6){
+    } else if (PINC & 0b00000111 == 6){
 	dly=7200;//.07854rad/s, 2hr revolution
-    }
-    if(PINC & 0b00000111 == 7){
+    } else if (PINC & 0b00000111 == 7){
 	dly=7200;//.07854rad/s, 4hr revolution
-    }
-
+    } else {die 10;}
 
     while(!(PINC &= 1<<7)){     //allow user to position camera
 	if(PINC &= 1<<3){
@@ -93,12 +81,10 @@ int main(){
 	delay(1);
     }//start button pressed, initiate pictionation sequence
 
-    TCNT0 = 0;
-    TCNT2 = 0;
     TCNT1 = 0;
 
     if (;;){
-	if (TCNT1 >= dly){       //poll timer
+	if (TCNT1 >= dly){       //poll timer and microstep anticlockwise
 	    TCNT1 = 0;
 	    ustep(2);
 	}
@@ -117,7 +103,8 @@ void ustep(uint8_t me){
     *********************************************************/
     uint8_t sinewave[32] = {0, 25, 50, 74, 98, 120, 142, 162, 180,\
     197, 212, 225, 236, 244, 250, 254, 255, 254, 250, 244, 236, 225,\
-    212, 197, 180, 162, 142, 120, 98, 74, 50, 25, 0}; 
+    212, 197, 180, 162, 142, 120, 98, 74, 50, 25}; 
+
     static uint8_t microstate;
     static uint8_t macrostate;
 
@@ -125,7 +112,7 @@ void ustep(uint8_t me){
     if (1==me){
 	microstate++;
     } else if (2==me){
-	microstate--; //bug...I can't support this 
+	microstate--; 
     }
     if (microstate > 31){
 	microstate=0;
