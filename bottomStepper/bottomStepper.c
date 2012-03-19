@@ -95,7 +95,7 @@ int main(){
 
     TCNT1 = 0;
 
-    if (;;){
+    while(1){
 	if (TCNT1 >= dly){       //poll timer and microstep anticlockwise
 	    TCNT1 = 0;
 	    ustep(2);
@@ -128,27 +128,27 @@ void ustep(uint8_t me){
     output pins every 32 steps to address the proper motor coils*/
 
     //write out the PWM compare register values
-    switch ((state >> 4)%4){
+    switch ((state >> 4)&3){   //X % N same as X & N-1 if N is a power of 2
 	case 0:
-	    OCR0A = sinewave[state%16];
-	    OCR0B = sinewave[(state+16)%32];
+	    OCR0A = sinewave[state&31];
+	    OCR0B = sinewave[(state+16)&31];
 	    OCR2A = 0;
 	    OCR2B = 0;
 	case 1:
 	    OCR0A = 0;
-	    OCR0B = sinewave[state%16];
-	    OCR2A = sinewave[(state+16)%32];
+	    OCR0B = sinewave[state&31];
+	    OCR2A = sinewave[(state+16)&31];
 	    OCR2B = 0;
 	case 2:
 	    OCR0A = 0;
 	    OCR0B = 0;
-	    OCR2A = sinewave[state%16];
-	    OCR2B = sinewave[(state+16)%32];
+	    OCR2A = sinewave[state&31];
+	    OCR2B = sinewave[(state+16)&31];
 	case 3:
-	    OCR0A = sinewave[(state+16)%32];
+	    OCR0A = sinewave[(state+16)&31];
 	    OCR0B = 0;
 	    OCR2A = 0;
-	    OCR2B = sinewave[state%16];
+	    OCR2B = sinewave[state&31];
 	default: 
 	    die (5);
     }
