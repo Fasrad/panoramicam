@@ -1,4 +1,5 @@
 #files to not version
 
 *.swp
-
+*.out
+*.hex

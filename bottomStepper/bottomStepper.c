@@ -41,11 +41,10 @@ void ustep(uint8_t);
 int main(){
     uint16_t dly;    //delay between steps, in timer ticks
 
-    //set up PWM timers
     TCCR0A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 103
     TCCR0B |= (1<<1);                       //F_CPU/8; page 105:8kHz@8bit
     TCCR2A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 153
-    TCCR2B |= (3<<1);                       //F_CPU/8,  page 157
+    TCCR2B |= (1<<1);                       //F_CPU/8,  page 157
 
     //set up pin directions
     DDRB = 0xFF;
