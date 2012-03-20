@@ -66,50 +66,49 @@ int main(){
 
     
     //read in DIP; set up TIMER1 per spreadsheet calculation 
-    switch (PINC << 5){
+    switch ((PINC << 5)>>5){
     case 0:
 	dly=6667;             //8s revolution
 	TCCR1B |= (1);        //F_CPU/1; page 133; 
 	blink (0);
 	break;
-    case 32:
+    case 1:
 	dly=13333;            //16s revolution
 	TCCR1B |= (1);        //F_CPU/1
 	blink (1);
 	break;
-    case 64:
+    case 2:
 	dly=3333;             //32s revolution
 	TCCR1B |= (1<<1);     //F_CPU/8
 	blink (2);
 	break;
-    case 96:
+    case 3:
 	dly=6667;             //64s revolution
 	TCCR1B |= (1<<1);     //F_CPU/8
 	blink (3);
 	break;
-    case 128:
+    case 4:
 	dly=7812;             //10min revolution
 	TCCR1B |= (1<<2);     //F_CPU/64
 	blink (4);
 	break;
-    case 160:
+    case 5:
 	dly=46875;            //1hr revolution
 	TCCR1B |= (1<<2);     //F_CPU/64
 	blink (5);
 	break;
-    case 192:
+    case 6:
 	dly=5859;             //2hr revolution
 	TCCR1B |= (5);        //F_CPU/1024
 	blink (6);
 	break;
-    case 224:
+    case 7:
 	dly=11718;            //4hr revolution
 	TCCR1B |= (5);        //F_CPU/1024
 	blink (7);
 	break;
     default:
 	die (10);
-	break;
     }
 
     while(PIND &= 1<<1){   //allow user to pre-position camera
