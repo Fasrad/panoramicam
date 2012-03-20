@@ -165,21 +165,25 @@ void ustep(uint8_t me){
 	    OCR0B = sinewave[(state+16)&31];
 	    OCR2A = 0;
 	    OCR2B = 0;
+	    break;
 	case 1:
 	    OCR0A = 0;
 	    OCR0B = sinewave[state&31];
 	    OCR2A = sinewave[(state+16)&31];
 	    OCR2B = 0;
+	    break;
 	case 2:
 	    OCR0A = 0;
 	    OCR0B = 0;
 	    OCR2A = sinewave[state&31];
 	    OCR2B = sinewave[(state+16)&31];
+	    break;
 	case 3:
 	    OCR0A = sinewave[(state+16)&31];
 	    OCR0B = 0;
 	    OCR2A = 0;
 	    OCR2B = sinewave[state&31];
+	    break;
 	default: 
 	    die (5);
     }
