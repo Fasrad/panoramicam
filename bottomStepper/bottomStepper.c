@@ -36,6 +36,7 @@ Test a bit
 
 void delay(uint16_t);
 void die (uint8_t);
+void blink (uint8_t);
 void ustep(uint8_t);
 
 int main(){
@@ -49,13 +50,13 @@ int main(){
     PORTC = 0xFF;
     PORTD = 0xFF;
 
+    //startup blinkenled
     for (int i=0; i<8; i++){
 	PORTB |= (1<<5);
 	delay(100);
 	PORTB &= ~(1<<5);
 	delay(100);
     }
-
     delay(1000);
 
     TCCR0A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 103
@@ -69,37 +70,46 @@ int main(){
     case 0:
 	dly=6667;             //8s revolution
 	TCCR1B |= (1);        //F_CPU/1; page 133; 
+	blink (0);
 	break;
     case 32:
 	dly=13333;            //16s revolution
 	TCCR1B |= (1);        //F_CPU/1
+	blink (1);
 	break;
     case 64:
 	dly=3333;             //32s revolution
 	TCCR1B |= (1<<1);     //F_CPU/8
+	blink (2);
 	break;
     case 96:
 	dly=6667;             //64s revolution
 	TCCR1B |= (1<<1);     //F_CPU/8
+	blink (3);
 	break;
     case 128:
 	dly=7812;             //10min revolution
 	TCCR1B |= (1<<2);     //F_CPU/64
+	blink (4);
 	break;
     case 160:
 	dly=46875;            //1hr revolution
 	TCCR1B |= (1<<2);     //F_CPU/64
+	blink (5);
 	break;
     case 192:
 	dly=5859;             //2hr revolution
 	TCCR1B |= (5);        //F_CPU/1024
+	blink (6);
 	break;
     case 224:
 	dly=11718;            //4hr revolution
 	TCCR1B |= (5);        //F_CPU/1024
+	blink (7);
 	break;
     default:
 	die (10);
+	break;
     }
 
     while(PIND &= 1<<1){   //allow user to pre-position camera
@@ -111,8 +121,9 @@ int main(){
 	}
 	delay(1);
     }
-
     //start button pressed; initiate pictionation sequence
+
+    blink(10);
 
     TCNT1 = 0;
 
@@ -146,7 +157,7 @@ void ustep(uint8_t me){
     }
 
     /*I use the most significant nybble of byte 'state' to change
-    output pins state table every 32 steps*/
+    output pin state table every 32 steps*/
 
     //write out the PWM compare register values
     switch ((state >> 4)&3){ //X%N same as X&(N-1) if X and N are power of 2
@@ -193,4 +204,13 @@ void die (uint8_t me){
 	}
 	delay(2000);
     }
+}
+void blink (uint8_t me){
+    for (int i=0; i<me; i++){
+	PORTB |= (1<<5);
+	delay(300);
+	PORTB &= ~(1<<5);
+	delay(300);
+    }
+    delay(500);
 }
