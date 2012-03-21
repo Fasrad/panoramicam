@@ -43,8 +43,9 @@ int main(){
     uint16_t dly;    //delay between steps, in timer ticks
 
     //set up port pins 
+    //d4 and d7 are high. portc is all high. B3 and B5 are low, and 6-7xtl
     DDRB = 0xFF;
-    DDRD = 0;
+    DDRD = 0xFF;
     DDRC = 0;
     PORTB = 0xFF;
     PORTC = 0xFF;
@@ -65,8 +66,7 @@ int main(){
     TCCR2B |= (1<<1);                       //F_CPU/8,  page 157
 
     //read in DIP; set up TIMER1 per spreadsheet calculation 
-    uint8_t speed = PINC & 0b00000111; 
-    switch (speed){
+    switch (PINC & 0b00000111){
     case 0:
 	dly=6667;             //8s revolution
 	TCCR1B |= (1);        //F_CPU/1; page 133; 
@@ -152,6 +152,7 @@ void ustep(uint8_t me){
     } else if (1==me){
 	state++; 
     }
+    PORTB |= state&1;
 
     /*I use the most significant nybble of byte 'state' to change
     output pin state table every 32 steps*/
