@@ -65,7 +65,8 @@ int main(){
     TCCR2B |= (1<<1);                       //F_CPU/8,  page 157
 
     //read in DIP; set up TIMER1 per spreadsheet calculation 
-    switch ((PINC << 5)>>5){
+    uint8_t speed = PINC & 0b00000111; 
+    switch (speed){
     case 0:
 	dly=6667;             //8s revolution
 	TCCR1B |= (1);        //F_CPU/1; page 133; 
@@ -195,6 +196,12 @@ void delay(uint16_t me){
 }
 
 void die (uint8_t me){
+    for (int i=0; i<10; i++){
+	PORTB |= (1<<5);
+	delay(40);
+	PORTB &= ~(1<<5);
+	delay(40);
+    }
     while(1){
 	for (int i=0; i<me; i++){
 	    PORTB |= (1<<5);
