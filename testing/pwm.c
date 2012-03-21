@@ -16,7 +16,11 @@ int main(void){
 	//set up pin directions
 	DDRB = 0xFF;
 	DDRD = 0xFF;
-	DDRC = 0;
+	DDRC = 0xFF;
+
+	PORTB = 0xFF;
+	PORTC = 0xFF;
+	PORTD = 0xFF;
 
 	OCR0A = 100;
 	OCR0B = 128;
