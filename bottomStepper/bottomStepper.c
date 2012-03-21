@@ -64,7 +64,6 @@ int main(){
     TCCR2A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 153
     TCCR2B |= (1<<1);                       //F_CPU/8,  page 157
 
-    
     //read in DIP; set up TIMER1 per spreadsheet calculation 
     switch ((PINC << 5)>>5){
     case 0:
@@ -139,8 +138,6 @@ void ustep(uint8_t me){
     //1 is clockwise and 2 is anticlockwise 
     /********************************************************
     Sinewave output routine for unipolar stepper motor
-    amounts to PCM output with 8-bit word depth and
-    sample rate of f * 64 
     *********************************************************/
     uint8_t sinewave[32] = {0, 25, 50, 74, 98, 120, 142, 162, 180,\
     197, 212, 225, 236, 244, 250, 254, 255, 254, 250, 244, 236, 225,\
@@ -198,7 +195,7 @@ void delay(uint16_t me){
 }
 
 void die (uint8_t me){
-    for (;;){
+    while(1){
 	for (int i=0; i<me; i++){
 	    PORTB |= (1<<5);
 	    delay(300);
@@ -215,5 +212,4 @@ void blink (uint8_t me){
 	PORTB &= ~(1<<5);
 	delay(300);
     }
-    delay(500);
 }
