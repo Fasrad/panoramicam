@@ -43,9 +43,8 @@ int main(){
     uint16_t dly;    //delay between steps, in timer ticks
 
     //set up port pins 
-    //d4 and d7 are high. portc is all high. B3 and B5 are low, and 6-7xtl
-    DDRB = 0xFF;
-    DDRD = 0xFF;
+    DDRB = 0;
+    DDRD = 0;
     DDRC = 0;
     PORTB = 0xFF;
     PORTC = 0xFF;
@@ -60,10 +59,12 @@ int main(){
     }
     delay(1000);
 
+    //timer configs
     TCCR0A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 103
     TCCR0B |= (1<<1);                       //F_CPU/8; page 105:8kHz@8bit
     TCCR2A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 153
     TCCR2B |= (1<<1);                       //F_CPU/8,  page 157
+
 
     //read in DIP; set up TIMER1 per spreadsheet calculation 
     switch (PINC & 0b00000111){
@@ -111,11 +112,11 @@ int main(){
 	die (10);
     }
 
-    while(PIND &= 1<<1){   //allow user to pre-position camera
-	if(!(PIND &= 1<<2)){
+    while(PIND & 1<<1){   //allow user to pre-position camera
+	if(!(PIND & 1<<2)){
 	   ustep(1);
 	}
-	if(!(PIND &= 1)){
+	if(!(PIND & 1)){
 	   ustep(2);
 	}
 	delay(1);
@@ -220,4 +221,5 @@ void blink (uint8_t me){
 	PORTB &= ~(1<<5);
 	delay(300);
     }
+    delay(600);
 }

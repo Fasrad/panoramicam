@@ -2,7 +2,6 @@
 /*
 Porttest
 Tests output ports
-connected to portC pins 0 through 3
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,9 +40,9 @@ int main(){
 
    while (1){
     //set up pin directions
-    DDRB = 0xFF;
-    DDRC = 0xFF;
-    DDRD = 0xFF;
+    DDRB = 0;
+    DDRC = 0;
+    DDRD = 0;
 
     //set up port statuses
     PORTB = 0xFF;
