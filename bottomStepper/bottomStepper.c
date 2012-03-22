@@ -43,8 +43,8 @@ int main(){
     uint16_t dly;    //delay between steps, in timer ticks
 
     //set up port pins 
-    DDRB = 0;
-    DDRD = 0;
+    DDRB |= 0b00001000;
+    DDRD |= 0b01101000;
     DDRC = 0;
     PORTB = 0xFF;
     PORTC = 0xFF;
@@ -64,6 +64,10 @@ int main(){
     TCCR0B |= (1<<1);                       //F_CPU/8; page 105:8kHz@8bit
     TCCR2A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 153
     TCCR2B |= (1<<1);                       //F_CPU/8,  page 157
+    OCR0A = 128;
+    OCR0B = 128;
+    OCR2A = 128;
+    OCR2B = 128;
 
 
     //read in DIP; set up TIMER1 per spreadsheet calculation 
@@ -131,6 +135,7 @@ int main(){
 	if (TCNT1 >= dly){       //poll timer and microstep anticlockwise
 	    TCNT1 = 0;
 	    ustep(2);
+//	    PORTB ^= (1 << 5);
 	}
     }
 }//main
@@ -153,7 +158,6 @@ void ustep(uint8_t me){
     } else if (1==me){
 	state++; 
     }
-    PORTB |= state&1;
 
     /*I use the most significant nybble of byte 'state' to change
     output pin state table every 32 steps*/
@@ -187,7 +191,6 @@ void ustep(uint8_t me){
 	default: 
 	    die (5);
     }
-
 }//ustep
 
 void delay(uint16_t me){
