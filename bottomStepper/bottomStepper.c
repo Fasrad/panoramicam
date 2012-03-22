@@ -30,6 +30,7 @@ Test a bit
  bit_fld & (1 << n)
 */ 
 
+#define mdelay 100        //manual positioning speed, ms delay
 #define F_CPU 16000000UL //*16MHz*
 #include <avr/io.h>
 #include <util/delay.h>
@@ -43,7 +44,7 @@ int main(){
     uint16_t dly;    //delay between steps, in timer ticks
 
     //set up port pins 
-    DDRB |= 0b00001000;
+    DDRB |= 0b00101000;
     DDRD |= 0b01101000;
     DDRC = 0;
     PORTB = 0xFF;
@@ -123,7 +124,7 @@ int main(){
 	if(!(PIND & 1)){
 	   ustep(2);
 	}
-	delay(1);
+	delay(mdelay);
     }
     //start button pressed; initiate pictionation sequence
 
@@ -169,24 +170,28 @@ void ustep(uint8_t me){
 	    OCR0B = sinewave[(state+16)&31];
 	    OCR2A = 0;
 	    OCR2B = 0;
+	    PORTB ^= (1 << 5);
 	    break;
 	case 1:
 	    OCR0A = 0;
 	    OCR0B = sinewave[state&31];
 	    OCR2A = sinewave[(state+16)&31];
 	    OCR2B = 0;
+	    PORTB ^= (1 << 5);
 	    break;
 	case 2:
 	    OCR0A = 0;
 	    OCR0B = 0;
 	    OCR2A = sinewave[state&31];
 	    OCR2B = sinewave[(state+16)&31];
+	    PORTB ^= (1 << 5);
 	    break;
 	case 3:
 	    OCR0A = sinewave[(state+16)&31];
 	    OCR0B = 0;
 	    OCR2A = 0;
 	    OCR2B = sinewave[state&31];
+	    PORTB ^= (1 << 5);
 	    break;
 	default: 
 	    die (5);
