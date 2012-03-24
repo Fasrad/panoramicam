@@ -7,19 +7,7 @@ it under the terms of the GNU General Public License version 3 or any later
 version. This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
-******************************************************************
-Set a bit
- bit_fld |= (1 << n)
-
-Clear a bit
- bit_fld &= ~(1 << n)
-
-Toggle a bit
- bit_fld ^= (1 << n)
-
-Test a bit
- bit_fld & (1 << n)
-*/ 
+******************************************************************/
 
 #define mdelay 100       //manual positioning speed, ms delay
 #define F_CPU 16000000UL //*16MHz*
@@ -113,7 +101,7 @@ int main(){
 	}
 	delay(mdelay);
     }
-    //start button pressed; initiate pictionation 
+    //button has been pressed; initiate pictionation 
 
     blink(10);
 
@@ -121,13 +109,11 @@ int main(){
 
     while(1){
 	if (TCNT1 >= dly){die 2;}   //catch possible timer backlash/overrun
-	while(1){
-	    if (TCNT1 >= dly){       //poll timer and microstep anticlockwise
-		TCNT1 = 0;
-		ustep(2);
-		break;
-	    }
+	while(TCNT1 < dly){         //poll timer 
+	    asm("nop"::);
 	}
+	TCNT1 = 0;          
+	ustep(2);
     }
 }//main
 
@@ -155,8 +141,8 @@ void ustep(uint8_t me){
     //write out the PWM compare register values
     switch ((state >> 4)&3){ //X%N = X&(N-1) if X and N are powers of 2
 	case 0:
-	    OCR0A = sinewave[state&31];
-	    OCR0B = sinewave[(state+16)&31];
+	    OCR0A = sinewave[(state+16)&31];
+	    OCR0B = sinewave[state&31];
 	    OCR2A = 0;
 	    OCR2B = 0;
 	    PORTB ^= (1 << 5);
@@ -171,8 +157,8 @@ void ustep(uint8_t me){
 	case 2:
 	    OCR0A = 0;
 	    OCR0B = 0;
-	    OCR2A = sinewave[state&31];
-	    OCR2B = sinewave[(state+16)&31];
+	    OCR2A = sinewave[(state+16)&31];
+	    OCR2B = sinewave[state&31];
 	    PORTB ^= (1 << 5);
 	    break;
 	case 3:
@@ -221,3 +207,15 @@ void blink (uint8_t me){
     }
     delay(600);
 }
+/*Set a bit
+ bit_fld |= (1 << n)
+
+Clear a bit
+ bit_fld &= ~(1 << n)
+
+Toggle a bit
+ bit_fld ^= (1 << n)
+
+Test a bit
+ bit_fld & (1 << n)
+*/ 
