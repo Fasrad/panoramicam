@@ -9,10 +9,25 @@ int main(){
 
    uint8_t state;
 
+    TCCR0A = 0b10100011;     //fast PWM; page 103
+    TCCR0B = 0b00000010;     //F_CPU/8; page 105
+    TCCR2A = 0b10100011;     //fast PWM; page 153
+    TCCR2B = 0b00000010;     //F_CPU/8,  page 157
+
+        //set up pin directions
+        DDRB = 0xFF;
+        DDRD = 0xFF;
+        DDRC = 0xFF;
+
+        PORTB = 0xFF;
+        PORTC = 0xFF;
+        PORTD = 0xFF;
+
+
    while(1){
        state++;
        ustep(state);
-       delay(5);
+       delay(500);
    }
 
 }//main
