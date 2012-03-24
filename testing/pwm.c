@@ -3,14 +3,12 @@
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
-
 void delay(uint16_t);
 void ustep(uint8_t);
 
-int main(void){
-
 uint8_t state;
 
+int main(void){
 //set up PWM timers
 /*TCCR0A:
 bit#    |--7---|--6---|--5---|--4---|--3--|--2--|--1--|--0--|

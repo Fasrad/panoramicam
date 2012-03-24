@@ -5,9 +5,9 @@
 void ustep(uint8_t);
 void delay(uint16_t);
 
-int main(){
+uint8_t state;
 
-   uint8_t state;
+int main(){
 
     TCCR0A = 0b10100011;     //fast PWM; page 103
     TCCR0B = 0b00000010;     //F_CPU/8; page 105
