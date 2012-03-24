@@ -1,8 +1,7 @@
 /*-------|---------|---------|---------|---------|---------|---------|---------|
 bottomStepper.c	
-For the bottom bit of panoramicam. Written for the ATMEGA 168 microcontroller
+For the bottom half of panoramicam. Written for the ATMEGA 168 microcontroller
 and avr-gcc compiler.
-
 This is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License version 3 or any later
 version. This program is distributed in the hope that it will be useful,
@@ -103,7 +102,7 @@ int main(){
 	    blink (7);
 	    break;
 	default:
-	    die (10);
+	    die (1);
     }
 
     while(PIND & 1<<1){           //allow user to pre-position camera
@@ -114,14 +113,14 @@ int main(){
 	}
 	delay(mdelay);
     }
-    //start button pressed; initiate pictionation sequence
+    //start button pressed; initiate pictionation 
 
     blink(10);
 
     TCNT1 = 0;
 
     while(1){
-	if (TCNT1 >= dly){die 12;}   //catch possible timer backlash/overrun
+	if (TCNT1 >= dly){die 2;}   //catch possible timer backlash/overrun
 	while(1){
 	    if (TCNT1 >= dly){       //poll timer and microstep anticlockwise
 		TCNT1 = 0;
@@ -144,9 +143,9 @@ void ustep(uint8_t me){
     static uint8_t state; 
     //I use the least significant nybble of byte 'state' to track PWM duty
     //cycle, and the most significant nybble to change output pin state
-    //table every 32 microsteps
+    //table every 90 degrees of the sinewave
 
-    //increment the microstate to step the motor
+    //increment the duty cycles to microstep the motor
     if (2==me){
 	state--;
     } else if (1==me){
@@ -184,7 +183,7 @@ void ustep(uint8_t me){
 	    PORTB ^= (1 << 5);
 	    break;
 	default: 
-	    die (5);
+	    die (3);
     }
 }//ustep
 
