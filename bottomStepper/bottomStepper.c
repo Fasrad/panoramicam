@@ -108,9 +108,9 @@ int main(){
     TCNT1 = 0;
 
     while(1){
-	if (TCNT1 >= dly){die 2;}   //catch possible timer backlash/overrun
+	if (TCNT1 >= dly){die (2);}   //catch possible timer backlash/overrun
 	while(TCNT1 < dly){         //poll timer 
-	    asm("nop"::);
+	   //asm("nop"::);
 	}
 	TCNT1 = 0;          
 	ustep(2);

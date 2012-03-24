@@ -8,10 +8,26 @@ void delay(uint16_t);
 int main(void){
 
 //set up PWM timers
-    TCCR0A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 103
-    TCCR0B |= (1<<1);                       //F_CPU/8; page 105:8kHz@8bit
-    TCCR2A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 153
-    TCCR2B |= (1<<1);                       //F_CPU/8,  page 157
+/*TCCR0A:
+bit#    |--7---|--6---|--5---|--4---|--3--|--2--|--1--|--0--|
+desc    |COM0A1|COM0A0|COM0B1|COM0B0|-Res-|-Res-|WGM01|WGM00|
+set.    |--1---|--0---|--1---|--0---|--0--|--0--|--1--|--1--|
+TCCR0B:
+bit#    |--7---|--6---|--5---|--4---|--3--|--2--|--1--|--0--|
+desc.   |FOC0A-|FOC0B-|-res--|--res-|WGM02|CS02-|CS01-|CS00-| 
+set.    |--0---|--0---|--0---|--0---|--0--|--0--|--1--|--0--|*/
+    TCCR0A = 0b10100011;     //fast PWM; page 103
+    TCCR0B = 0b00000010;     //F_CPU/8; page 105:8kHz@8bit
+/*TCCR2A:
+bit#    |--7---|--6---|--5---|--4---|--3--|--2--|--1--|--0--|
+desc    |COM0A1|COM0A0|COM0B1|COM0B0|-Res-|-Res-|WGM01|WGM00|
+set.    |--1---|--0---|--1---|--0---|--0--|--0--|--1--|--1--|
+TCCR2B:
+bit#    |--7---|--6---|--5---|--4---|--3--|--2--|--1--|--0--|
+desc.   |FOC0A-|FOC0B-|-res--|--res-|WGM02|CS02-|CS01-|CS00-| 
+set.    |--0---|--0---|--0---|--0---|--0--|--0--|--1--|--0--|*/
+    TCCR2A = 0b10100011;     //fast PWM; page 153
+    TCCR2B = 0b00000010;     //F_CPU/8,  page 157
 
 	//set up pin directions
 	DDRB = 0xFF;
@@ -22,10 +38,16 @@ int main(void){
 	PORTC = 0xFF;
 	PORTD = 0xFF;
 
-	OCR0A = 100;
-	OCR0B = 128;
-	OCR2A = 150;
-	OCR2B = 190;
+	while (1){
+	    static uint8_t dc; 
+	    dc++;
+	    OCR0A = dc;
+	    OCR0B = dc;
+	    OCR2A = dc;
+	    OCR2B = dc;
+	    delay(5);
+
+	}
 
     for(;;){
     delay(1);
