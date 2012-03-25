@@ -1,6 +1,6 @@
 //example program to test microcontroller PWM. 
-//this program works as expected, when each pin is tested via LED. 
-//it's not a correct algorith, but it actually full-steps the motor as well
+//this program works as expected, when each pin is tested with multimeter. 
+//it's not a correct algorith, but it actually full-steps the motor 
 //at 1:35 per rev at 5ms delay
 
 #define F_CPU 16000000UL //*16MHz*

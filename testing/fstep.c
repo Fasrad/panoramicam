@@ -59,28 +59,28 @@ void ustep(){
     //write out the PWM compare register values
     switch ((state >> 4)&3){ //X%N = X&(N-1) if X and N are powers of 2
 	case 0:
-	    OCR0A = sinewave[(state+16)&31]; //pwm works, because if I 
-	    OCR0B = sinewave[state&31]; //set these to 128; it's 2.5V
+	    OCR0A = 255;
+	    OCR0B = 0;
 	    OCR2A = 0; 
 	    OCR2B = 0; 
 	    break;
 	case 1:
 	    OCR0A = 0;
-	    OCR0B = sinewave[state&31];
-	    OCR2A = sinewave[(state+16)&31];
+	    OCR0B = 255;
+	    OCR2A = 0;
 	    OCR2B = 0;
 	    break;
 	case 2:
 	    OCR0A = 0;
 	    OCR0B = 0;
-	    OCR2A = sinewave[(state+16)&31];
-	    OCR2B = sinewave[state&31];
+	    OCR2A = 255;
+	    OCR2B = 0;
 	    break;
 	case 3:
-	    OCR0A = sinewave[(state+16)&31];
+	    OCR0A = 0;
 	    OCR0B = 0;
 	    OCR2A = 0;
-	    OCR2B = sinewave[state&31];
+	    OCR2B = 255;
 	    break;
     }//switch
 }//ustep
