@@ -50,42 +50,42 @@ int main(){
     //read in DIPswitch; set up TIMER1 per external calculation 
     switch (PINC & 0b00000111){
 	case 0:
-	    dly=6667;             //8s revolution
+	    dly=3333;             //8s revolution
 	    TCCR1B |= (1);        //F_CPU/1; page 133; 
 	    blink (0);
 	    break;
 	case 1:
-	    dly=13333;            //16s revolution
+	    dly=6666;            //16s revolution
 	    TCCR1B |= (1);        //F_CPU/1
 	    blink (1);
 	    break;
 	case 2:
-	    dly=3333;             //32s revolution
+	    dly=1667;             //32s revolution
 	    TCCR1B |= (1<<1);     //F_CPU/8
 	    blink (2);
 	    break;
 	case 3:
-	    dly=6667;             //64s revolution
+	    dly=3333;             //64s revolution
 	    TCCR1B |= (1<<1);     //F_CPU/8
 	    blink (3);
 	    break;
 	case 4:
-	    dly=7812;             //10min revolution
+	    dly=3906;             //10min revolution
 	    TCCR1B |= (1<<2);     //F_CPU/64
 	    blink (4);
 	    break;
 	case 5:
-	    dly=46875;            //1hr revolution
+	    dly=23437;            //1hr revolution
 	    TCCR1B |= (1<<2);     //F_CPU/64
 	    blink (5);
 	    break;
 	case 6:
-	    dly=5859;             //2hr revolution
+	    dly=2929;             //2hr revolution
 	    TCCR1B |= (5);        //F_CPU/1024
 	    blink (6);
 	    break;
 	case 7:
-	    dly=11718;            //4hr revolution
+	    dly=5859;            //4hr revolution
 	    TCCR1B |= (5);        //F_CPU/1024
 	    blink (7);
 	    break;
@@ -122,14 +122,14 @@ void ustep(uint8_t me){
     Sinewave output routine for unipolar stepper motor
     1 is clockwise and 2 is anticlockwise 
     *********************************************************/
-    static  uint8_t sinewave[32] = {0, 25, 50, 74, 98, 120, 142,
-    162,180,197, 212, 225, 236, 244, 250, 254, 255, 254, 250, 244, 236, 225,
-    212, 197, 180, 162, 142, 120, 98, 74, 50, 25}; 
+    static uint8_t sinewave[64] = {0,13,25,37,50,62,74,86,98,109,120,131,
+    142,152,162,171,180,189,197,205,212,219,225,231,236,240,244,247,250,252,
+    254,255,255,255,254,252,250,247,244,240,236,231,225,219,212,205,197,189,
+    180,171,162,152,142,131,120,109,98,86,74,62,50,37,25,13};
 
     static uint8_t state; 
-    //I use the least significant nybble of byte 'state' to track PWM duty
-    //cycle, and the most significant nybble to change output pin state
-    //table every 90 degrees of the sinewave
+    //I use the most significant 3 bits of byte 'state' to track the 
+    //output pin state table, and the lower 5 bits track the PWM duty cycle
 
     //increment the duty cycles to microstep the motor
     if (2==me){
@@ -139,33 +139,33 @@ void ustep(uint8_t me){
     }
 
     //write out the PWM compare register values
-    switch ((state >> 4)&3){ //X%N = X&(N-1) if X and N are powers of 2
+    switch ((state >> 5)&3){ //X%N = X&(N-1) if X and N are powers of 2
 	case 0:
-	    OCR0A = sinewave[(state+16)&31];
-	    OCR0B = sinewave[state&31];
+	    OCR0A = sinewave[(state+32)&63];
+	    OCR0B = sinewave[state&63];
 	    OCR2A = 0;
 	    OCR2B = 0;
 	    PORTB ^= (1 << 5);
 	    break;
 	case 1:
 	    OCR0A = 0;
-	    OCR0B = sinewave[state&31];
-	    OCR2A = sinewave[(state+16)&31];
+	    OCR0B = sinewave[state&63];
+	    OCR2A = sinewave[(state+32)&63];
 	    OCR2B = 0;
 	    PORTB ^= (1 << 5);
 	    break;
 	case 2:
 	    OCR0A = 0;
 	    OCR0B = 0;
-	    OCR2A = sinewave[(state+16)&31];
-	    OCR2B = sinewave[state&31];
+	    OCR2A = sinewave[(state+32)&63];
+	    OCR2B = sinewave[state&63];
 	    PORTB ^= (1 << 5);
 	    break;
 	case 3:
-	    OCR0A = sinewave[(state+16)&31];
+	    OCR0A = sinewave[(state+32)&63];
 	    OCR0B = 0;
 	    OCR2A = 0;
-	    OCR2B = sinewave[state&31];
+	    OCR2B = sinewave[state&63];
 	    PORTB ^= (1 << 5);
 	    break;
 	default: 

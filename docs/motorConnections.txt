@@ -1,9 +1,0 @@
-Pololu connections; works for both motors:
-
-
-blu 2b
-red 2a
-blk 1a
-grn 1b
-
-

@@ -19,36 +19,38 @@ int main(){
 }//main
 
 void ustep(){
-    unsigned char sinewave[32] = {0, 25, 50, 74, 98, 120, 142, 162, 180,
-    197, 212, 225, 236, 244, 250, 254, 255, 254, 250, 244, 236, 225,
-    212, 197, 180, 162, 142, 120, 98, 74, 50, 25};
+    unsigned char sinewave[64] = {0,13,25,37,50,62,74,86,98,109,120,131,
+    142,152,162,171,180,189,197,205,212,219,225,231,236,240,244,247,250,252,
+    254,255,255,255,254,252,250,247,244,240,236,231,225,219,212,205,197,189,
+    180,171,162,152,142,131,120,109,98,86,74,62,50,37,25,13};
+
     printf("%d,", state);
     //write out the PWM compare register values
     //most significant nybble is used to choose pin state table
-    switch ((state >> 4)&3){ 
+    switch ((state >> 5)&3){ 
 	case 0:
-	    printf("%d,", sinewave[(state+16)&31]);
-	    printf("%d,", sinewave[state&31]);
+	    printf("%d,", sinewave[(state+32)&63]);
+	    printf("%d,", sinewave[state&63]);
 	    printf("%d,",0);
 	    printf("%d\n",0);
 	    break;
 	case 1:
 	    printf("%d,",0);
-	    printf("%d,", sinewave[state&31]);
-	    printf("%d,", sinewave[(state+16)&31]);
+	    printf("%d,", sinewave[state&63]);
+	    printf("%d,", sinewave[(state+32)&63]);
 	    printf("%d\n",0);
 	    break;
 	case 2:
 	    printf("%d,",0);
 	    printf("%d,",0);
-	    printf("%d,", sinewave[(state+16)&31]);
-	    printf("%d\n", sinewave[state&31]);
+	    printf("%d,", sinewave[(state+32)&63]);
+	    printf("%d\n", sinewave[state&63]);
 	    break;
 	case 3:
-	    printf("%d,", sinewave[(state+16)&31]);
+	    printf("%d,", sinewave[(state+32)&63]);
 	    printf("%d,",0);
 	    printf("%d,",0);
-	    printf("%d\n", sinewave[state&31]);
+	    printf("%d\n", sinewave[state&63]);
 	    break;
 	default:
 	    printf("%d\n",1);
