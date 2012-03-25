@@ -9,7 +9,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 ******************************************************************/
 
-#define mdelay 100       //manual positioning speed, ms delay
+#define mdelay 1       //manual positioning speed, ms delay
 #define F_CPU 16000000UL //*16MHz*
 #include <avr/pgmspace.h>
 #include <avr/io.h>
@@ -122,7 +122,7 @@ void ustep(uint8_t me){
     Sinewave output routine for unipolar stepper motor
     1 is clockwise and 2 is anticlockwise 
     *********************************************************/
-    static const uint8_t sinewave[32] PROGMEM = {0, 25, 50, 74, 98, 120, 142,
+    static  uint8_t sinewave[32] = {0, 25, 50, 74, 98, 120, 142,
     162,180,197, 212, 225, 236, 244, 250, 254, 255, 254, 250, 244, 236, 225,
     212, 197, 180, 162, 142, 120, 98, 74, 50, 25}; 
 

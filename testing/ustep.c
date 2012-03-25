@@ -44,7 +44,7 @@ int main(){
     PORTB = 0xFF;
     PORTC = 0xFF;
     PORTD = 0xFF;
-    while(1){
+    for(;;){
 	state++;
 	ustep();
 	delay(5);
