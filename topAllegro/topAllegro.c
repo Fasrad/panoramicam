@@ -1,31 +1,150 @@
 /*-------|---------|---------|---------|---------|---------|---------|---------|
-topAllegro.c
-for the top of panoramicam
-uses an Allegro multistepping stepper driver
-written for the ATMEGA 168 microcontroller and gcc
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
+topAllegro.c	
+For the top half of panoramicam. Written for the ATMEGA 168 microcontroller
+and avr-gcc compiler.
+This is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 3 or any later
+version. This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+******************************************************************/
 
-This program written by chaz miller circa 2012
-******************************************************************
-For derivation and explanation of all the magic numbers,
-see documentation panoramicalcs.ods
-PORTD maps to Arduino digital pins 0 to 7 
-PORTB maps to Arduino digital pins 8 to 13 
-PORTC maps to Arduino analog pins 0 to 5
-On boarduino: 
-a0-a5: dip 1,2,3, input buttons and start button
-Pins 8 step, 9 dir, 10ms1, 11ms2, 12ms3, 13 blinkenled 
+#define mdelay 4         //sets manual positioning speed; see delay()
+#define F_CPU 16000000UL //*16MHz*
+#include <avr/pgmspace.h>
+#include <avr/io.h>
 
-Set a bit
+void delay(uint16_t);
+void die (uint8_t);
+void blink (uint8_t);
+void step(uint8_t);
+
+uint16_t dly;    //delay between steps, in timer ticks
+
+int main(){
+    //set up port pins 
+    DDRB |= 0b00101000;
+    DDRD |= 0b01101000;
+    DDRC = 0;
+    PORTB = 0xFF;
+    PORTC = 0xFF;
+    PORTD = 0xFF;
+    //startup blinkenled
+    for (int i=0; i<8; i++){
+	PORTB |= (1<<5);
+	delay(800);
+	PORTB &= ~(1<<5);
+	delay(800);
+    }
+    delay(8000);
+
+    //read in DIPswitch; set up TIMER1 per external calculation 
+    switch (PINC & 0b00000111){
+	case 0:
+	    dly=3333;             //8s revolution
+	    TCCR1B |= (1);        //F_CPU/1; page 133; 
+	    blink (0);
+	    break;
+	case 1:
+	    dly=6666;             //16s revolution
+	    TCCR1B |= (1);        //F_CPU/1
+	    blink (1);
+	    break;
+	case 2:
+	    dly=1667;             //32s revolution
+	    TCCR1B |= (1<<1);     //F_CPU/8
+	    blink (2);
+	    break;
+	case 3:
+	    dly=3333;             //64s revolution
+	    TCCR1B |= (1<<1);     //F_CPU/8
+	    blink (3);
+	    break;
+	case 4:
+	    dly=3906;             //10min revolution
+	    TCCR1B |= (1<<2);     //F_CPU/64
+	    blink (4);
+	    break;
+	case 5:
+	    dly=23437;            //1hr revolution
+	    TCCR1B |= (1<<2);     //F_CPU/64
+	    blink (5);
+	    break;
+	case 6:
+	    dly=2929;             //2hr revolution
+	    TCCR1B |= (5);        //F_CPU/1024
+	    blink (6);
+	    break;
+	case 7:
+	    dly=5859;            //4hr revolution
+	    TCCR1B |= (5);        //F_CPU/1024
+	    blink (7);
+	    break;
+	default:
+	    die (1);
+    }
+
+    while(PIND & 1<<1){           //allow user to pre-position camera
+	if(!(PIND & 1<<2)){
+	   step(1);
+	} else if(!(PIND & 1)){
+	   step(2);
+	}
+	delay(mdelay);
+    }
+    //button has been pressed; initiate pictionation 
+
+    blink(10);
+
+    TCNT1 = 0;
+
+    while(1){
+	if (TCNT1 >= dly){die (2);}   //catch possible timer underrun
+	while(TCNT1 < dly){}          //poll timer 
+	TCNT1 = 0;          
+	step(2);
+    }
+}//main
+
+void step(uint8_t me){
+    /********************************************************
+    Speed-compensating step routine for Allegro driver chip
+    1 is clockwise and 2 is anticlockwise 
+    *********************************************************/
+    static uint8_t inflation; 
+    static uint8_t bernanke; 
+    static uint8_t dly; 
+
+    //increment dly
+    //increment inflation
+
+}//step
+
+void delay(uint16_t me){    //at F_CPU/8, each unit is 128us. 1ms is 8units. 
+    while(me){
+	while(TCNT0 < 128){}
+	me--;
+	while(TCNT0 > 128){}
+    }
+}
+
+void die (uint8_t me){
+    while(1){
+	blink(me);
+	delay(20000);
+    }
+}
+
+void blink (uint8_t me){
+    for (int i=0; i<me; i++){
+	PORTB |= (1<<5);
+	delay(300);
+	PORTB &= ~(1<<5);
+	delay(300);
+    }
+    delay(600);
+}
+/*Set a bit
  bit_fld |= (1 << n)
 
 Clear a bit
@@ -37,84 +156,3 @@ Toggle a bit
 Test a bit
  bit_fld & (1 << n)
 */ 
-
-#define F_CPU 16000000UL //*16MHz*
-#include <avr/io.h>
-#include <util/delay.h>
-
-/* function for long delay */
-void delay_ms(uint16_t ms) {
-    while ( ms ){
-            _delay_ms(1);
-            ms--;
-    }
-}
-
-void die (int me){
-    //this function is for debug; various errors will cause a blinkenled
-    while (1){
-	for (int i=0; i<me;i++){
-	    PORTB |= 1<<6; //twiddle LED pin
-	    delay_ms(300);
-	    PORTB |= 1<<6; 
-	    delay_ms(300);
-	    i++;
-	}
-    delay_ms(999);
-    }
-}//die
-
-int main(){
-    uint8_t delay;           //delay between pulses, in timer clockticks
-    uint8_t maxdelay;        //for sanity/bounds checking
-    uint8_t inflation;       //linear term for spool slowing/delay increase 
-    uint8_t bernanke;        //nonlinear slowing term (increases inflation)
-
-    //set up pin directions
-    DDRB = 0b00111111;
-    DDRC = 0;
-    
-    //read in DIP; set speed setting; 
-    if(PINC & 0b00000111 == 0){
-	delay=10;//fastest speed 
-    }
-    if(PINC & 0b00000111 == 1){
-	delay=20;//next slowest 
-    }
-    if(PINC & 0b00000111 == 2){
-	delay=40;//etc
-    }
-    if(PINC & 0b00000111 == 3){
-	delay=80;
-    }
-    if(PINC & 0b00000111 == 4){
-	delay=100;
-    }
-    if(PINC & 0b00000111 == 5){
-	delay=100;
-    }
-
-    TCCR1B |= ((1 << CS10) | (1 << CS11)); // Set up timer at Fcpu/256
-    //16us; .016ms per tick; 1 second till overflow; .2% max error 
-    //check datasheet on this timer setup!  
-    //TCNT1 stores the value
-
-    while(!(PINC &= 1<<7)){     //wait for user to pres button
-	delay_ms(1);
-    }
-
-    TCNT = 0;
-    PORTB |= 1<<1; //camera only works anticlockwise
-//Pins 8 step, 9 dir, 10ms1, 11ms2, 12ms3, 13 blinkenled 
-
-    if (;;){
-	if (TCNT1 >= delay){       //poll timer
-	    TCNT = 0;              //loop runs at 2x step speed; for an
-	    PORTB ^= 1;            //always-symmetric square wave 
-	    inflation += bernanke; //introduce nonlinearity
-	    delay += inflation;    //slow motor in accordance w/prophecy
-	    if (delay > maxdelay){die (1);} //no point in running forever
-	}//timer loop
-    }//infty loop
-}//end main
-

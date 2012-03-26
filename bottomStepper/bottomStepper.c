@@ -9,11 +9,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 ******************************************************************/
 
-#define mdelay 1       //manual positioning speed, ms delay
+#define mdelay 5         //sets manual positioning speed; see delay()
 #define F_CPU 16000000UL //*16MHz*
 #include <avr/pgmspace.h>
 #include <avr/io.h>
-#include <util/delay.h>
 
 void delay(uint16_t);
 void die (uint8_t);
@@ -30,22 +29,20 @@ int main(){
     PORTB = 0xFF;
     PORTC = 0xFF;
     PORTD = 0xFF;
-
+    //PWM timer configs
+    TCCR0A = 0b10100011;     //fastPWM;  p.103 in datasheet
+    TCCR2A = 0b10100011;     //fastPWM;  p.153
+    TCCR0B = 2;              //F_CPU/8;  p.105  (7.84 kHz)
+    TCCR2B = 2;              //F_CPU/8;  p.157
+    OCR0A = 128;             //gently lock stepper rotation 
     //startup blinkenled
     for (int i=0; i<8; i++){
 	PORTB |= (1<<5);
-	delay(100);
+	delay(800);
 	PORTB &= ~(1<<5);
-	delay(100);
+	delay(800);
     }
-    delay(1000);
-
-    //timer configs
-    TCCR0A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 103
-    TCCR0B |= (1<<1);                       //F_CPU/8; page 105:8kHz@8bit
-    TCCR2A |= (1<<7)|(1<<5)|(1)|(1<<1);     //fast PWM; page 153
-    TCCR2B |= (1<<1);                       //F_CPU/8,  page 157
-    OCR0A = 128;                            //gently lock stepper rotation 
+    delay(8000);
 
     //read in DIPswitch; set up TIMER1 per external calculation 
     switch (PINC & 0b00000111){
@@ -55,7 +52,7 @@ int main(){
 	    blink (0);
 	    break;
 	case 1:
-	    dly=6666;            //16s revolution
+	    dly=6666;             //16s revolution
 	    TCCR1B |= (1);        //F_CPU/1
 	    blink (1);
 	    break;
@@ -108,10 +105,8 @@ int main(){
     TCNT1 = 0;
 
     while(1){
-	if (TCNT1 >= dly){die (2);}   //catch possible timer backlash/overrun
-	while(TCNT1 < dly){         //poll timer 
-	   //asm("nop"::);
-	}
+	if (TCNT1 >= dly){die (2);}   //catch possible timer underrun
+	while(TCNT1 < dly){}          //poll timer 
 	TCNT1 = 0;          
 	ustep(2);
     }
@@ -129,81 +124,67 @@ void ustep(uint8_t me){
 
     static uint8_t state; 
     //I use the most significant 3 bits of byte 'state' to track the 
-    //output pin state table, and the lower 5 bits track the PWM duty cycle
+    //output pin state table; the lower 5 bits track the PWM duty cycle
 
     //increment the duty cycles to microstep the motor
     if (2==me){
 	state--;
     } else if (1==me){
 	state++; 
-    }
+    } else {die (5);}
 
     //write out the PWM compare register values
-    switch ((state >> 5)&3){ //X%N = X&(N-1) if X and N are powers of 2
+    switch ((state>>5)&3){ 
 	case 0:
 	    OCR0A = sinewave[(state+32)&63];
 	    OCR0B = sinewave[state&63];
 	    OCR2A = 0;
 	    OCR2B = 0;
-	    PORTB ^= (1 << 5);
 	    break;
 	case 1:
 	    OCR0A = 0;
 	    OCR0B = sinewave[state&63];
 	    OCR2A = sinewave[(state+32)&63];
 	    OCR2B = 0;
-	    PORTB ^= (1 << 5);
 	    break;
 	case 2:
 	    OCR0A = 0;
 	    OCR0B = 0;
 	    OCR2A = sinewave[(state+32)&63];
 	    OCR2B = sinewave[state&63];
-	    PORTB ^= (1 << 5);
 	    break;
 	case 3:
 	    OCR0A = sinewave[(state+32)&63];
 	    OCR0B = 0;
 	    OCR2A = 0;
 	    OCR2B = sinewave[state&63];
-	    PORTB ^= (1 << 5);
 	    break;
 	default: 
 	    die (3);
     }
 }//ustep
 
-void delay(uint16_t me){
+void delay(uint16_t me){    //at F_CPU/8, each unit is 128us. 1ms is 8units. 
     while(me){
-	_delay_ms(1);
+	while(TCNT0 < 128){}
 	me--;
+	while(TCNT0 > 128){}
     }
 }
 
 void die (uint8_t me){
-    for (int i=0; i<10; i++){
-	PORTB |= (1<<5);
-	delay(40);
-	PORTB &= ~(1<<5);
-	delay(40);
-    }
     while(1){
-	for (int i=0; i<me; i++){
-	    PORTB |= (1<<5);
-	    delay(300);
-	    PORTB &= ~(1<<5);
-	    delay(300);
-	}
-	delay(2000);
+	blink(me);
+	delay(20000);
     }
 }
 
 void blink (uint8_t me){
     for (int i=0; i<me; i++){
 	PORTB |= (1<<5);
-	delay(300);
+	delay(3000);
 	PORTB &= ~(1<<5);
-	delay(300);
+	delay(3000);
     }
     delay(600);
 }
