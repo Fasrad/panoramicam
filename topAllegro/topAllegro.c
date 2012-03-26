@@ -39,6 +39,8 @@ int main(){
     delay(8000);
 
     //read in DIPswitch; set up TIMER1 per external calculation 
+    //remember we step at twice the desired rate because allegro
+    //only steps on a rising edge
     switch (PINC & 0b00000111){
 	case 0:
 	    dly=3333;             //8s revolution
@@ -102,23 +104,17 @@ int main(){
 	if (TCNT1 >= dly){die (2);}   //catch possible timer underrun
 	while(TCNT1 < dly){}          //poll timer 
 	TCNT1 = 0;          
-	step(2);
+	if(2==me){
+	    PORTB |= 0xFF;
+	} else if (1==me){
+	    PORTB = 0xFF;
+	} else {die (2);}
+	inflation += bernanke;
+	dly += inflation;
+	PORTB ^= (1<<3);
     }
+
 }//main
-
-void step(uint8_t me){
-    /********************************************************
-    Speed-compensating step routine for Allegro driver chip
-    1 is clockwise and 2 is anticlockwise 
-    *********************************************************/
-    static uint8_t inflation; 
-    static uint8_t bernanke; 
-    static uint8_t dly; 
-
-    //increment dly
-    //increment inflation
-
-}//step
 
 void delay(uint16_t me){    //at F_CPU/8, each unit is 128us. 1ms is 8units. 
     while(me){
