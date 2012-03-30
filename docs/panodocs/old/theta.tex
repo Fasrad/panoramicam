@@ -1,0 +1,36 @@
+\documentclass[dvips,12pt]{article}
+\usepackage{amsmath}
+\begin{document}
+\setlength{\unitlength}{1cm}
+\begin{picture}(12,8)
+\centering 
+\thicklines
+
+\put(0,0){\line(1,0){12}}
+\put(0,0){\line(0,1){8}}
+\put(12,0){\line(0,1){8}}
+\put(0,8){\line(1,0){12}}
+\put(2,2){\line(1,0){8}}
+\put(5.7,2.2){\line(1,6){.7}}
+
+\put(2, 2){\vector(1, 0){8}}
+\put(6, 2){\vector(0,1){5.5}}
+\put(4.5,4.22){\vector(1,0){.75}}
+%\put(5.5,1.7){\vector(1,0){.5}}
+\put(5.6,1.74){$\leftrightarrow$}
+
+\put(6.5,5.7){\math d\theta\)}
+\put(5.55,1.4){\math dx\)}
+%dx=f \cdot d\theta$}
+
+\put(10,2.2){$x$}
+\put(6.2,7.4){$y$}
+\put(1,6.5){\large $Top\ View$}
+\put(2.7,4.1){\footnotesize $Exit\ Pupil$}
+\put(2,2.1){\footnotesize $Film Plane$}
+
+\qbezier(6,5.8)(6.2,6)(6.3,5.75)
+\put(6, 4.2){\circle{.666666}}
+
+\end{picture}
+\end{document}

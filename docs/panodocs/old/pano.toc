@@ -1,0 +1,29 @@
+\contentsline {section}{\numberline {1}Purpose}{1}
+\contentsline {section}{\numberline {2}References}{1}
+\contentsline {section}{\numberline {3}Definitions}{2}
+\contentsline {section}{\numberline {4}Panoramicam}{2}
+\contentsline {subsection}{The slit-scan camera concept}{2}
+\contentsline {subsection}{Implementation details}{2}
+\contentsline {section}{\numberline {5}Theoretical Development}{3}
+\contentsline {section}{\numberline {6}Hardware description}{5}
+\contentsline {subsection}{The Camera}{5}
+\contentsline {subsection}{The Platform}{5}
+\contentsline {subsection}{The Base}{5}
+\contentsline {subsection}{The Motion Control hardware}{5}
+\contentsline {section}{\numberline {7}Operating Instructions}{6}
+\contentsline {subsection}{Initial Setup}{6}
+\contentsline {subsection}{Load the film}{6}
+\contentsline {subsection}{Make The Exposure}{7}
+\contentsline {section}{\numberline {8}Software Functional Spec}{7}
+\contentsline {subsection}{Basic Software Function}{7}
+\contentsline {subsubsection}{Base}{7}
+\contentsline {subsubsection}{Platform}{7}
+\contentsline {subsection}{Software Requirements}{7}
+\contentsline {subsubsection}{Inputs and Outputs}{7}
+\contentsline {subsubsection}{Human Interface}{7}
+\contentsline {subsubsection}{Motor Control}{8}
+\contentsline {subsubsection}{Errors, Faults and Programmability}{8}
+\contentsline {subsection}{Development}{8}
+\contentsline {section}{\numberline {9}Example Source code}{9}
+\contentsline {subsection}{platform example code}{9}
+\contentsline {subsection}{base example code}{9}

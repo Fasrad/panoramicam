@@ -1,0 +1,36 @@
+\documentclass[dvips,12pt]{article}
+\usepackage{amsmath}
+\begin{document}
+\setlength{\unitlength}{1cm}
+\begin{picture}(12,8)
+\centering 
+\thicklines
+
+\put(0,0){\line(1,0){12}}
+\put(0,8){\line(1,0){12}}
+\put(0,0){\line(0,1){8}}
+\put(12,0){\line(0,1){8}}
+
+\thicklines
+\put(4,2){\vector(1,0){6}}
+
+\put(4, 4){\circle{9}}
+%\put(4.1, 3.9){$\leftrightarrow$}
+\put(4, 4){\vector(1, 0){.65}}
+\put(4, 4){\vector(0,-1){2}}
+
+\qbezier(6,4)(6,6)(4,6)
+\qbezier(4,6)(2,6)(2,4)
+\qbezier(2,4)(2,2)(4,2)
+\qbezier(4,2)(6,2)(6,4)
+
+\put(4.2,4.1){\math r\)}
+\put(4.1,2.6){\math R\)}
+\put(10,2.2){\math x\)}
+\put(3.6,4){\large \math \phi\)}
+\put(8, 1.5){\large \math film \)}
+
+\put(1,6.5){\large $Top\ View$}
+
+\end{picture}
+\end{document}
