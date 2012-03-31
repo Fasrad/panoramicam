@@ -305,15 +305,10 @@ Drive the film motor smoothly at precisely the right speed to capture sharp imag
 \renewcommand{\arraystretch}{1.4}% adjust hline heights for prettiness
 \begin{figure}[htb]
 \centering
+\caption{Platform Inputs}
 \begin{tabular}{|c|c|c|}
 \hline
 Input&Function&AVR PORT pin\\
-\hline
-Left&Rotate Left&D0\\
-\hline
-Start&Start Pictionation&D1\\
-\hline
-Right&Rotate Right&D2\\
 \hline
 DIP 0&Speed Select&C0\\
 \hline
@@ -321,36 +316,44 @@ DIP 1&Speed Select&C1\\
 \hline
 DIP 2&Speed Select&C2\\
 \hline
-DIP 3&Speed Select&C3\\
+DIP 3&Lens Select&C3\\
 \hline
-DIP 4&Lens Selector&C4\\
+Button 1 &Turn Motor&C4\\
+\hline
+Button 2 &Start&C5\\
 \hline
 \end{tabular}
-\caption{Platform Inputs}
 \label{fig:platforminputs}
 \end{figure}
 
 \renewcommand{\arraystretch}{1.4}% adjust hline heights for prettiness
 \begin{figure}[htb]
 \centering
+\caption{Platform Outputs}
 \begin{tabular}{|c|c|c|}
 \hline
 Output&Function&AVR PORT pin\\
 \hline
-Step&Step Motor&B0\\
+Dir&Set Motor Direction&B0\\
 \hline
-Dir&Set Motor Direction&B2\\
+Step&Step Motor&B1\\
+\hline
+MS3&Microstep Select&B2\\
+\hline
+MS2&Microstep Select&B3\\
+\hline
+MS1&Microstep Select&B4\\
 \hline
 LED&Blinkenled&B5\\
 \hline
 \end{tabular}
-\caption{Platform Outputs}
 \label{fig:platformoutputs}
 \end{figure}
 
 \renewcommand{\arraystretch}{1.4}% adjust hline heights for prettiness
 \begin{figure}[htb]
 \centering
+\caption{Base Inputs}
 \begin{tabular}{|c|c|c|}
 \hline
 Input&Function&AVR PORT pin\\
@@ -367,16 +370,14 @@ DIP 1&Speed Select&C1\\
 \hline
 DIP 2&Speed Select&C2\\
 \hline
-DIP 3&Speed Select&C3\\
-\hline
 \end{tabular}
-\caption{Base Inputs}
 \label{fig:baseinputs}
 \end{figure}
 
 \renewcommand{\arraystretch}{1.4}% adjust hline heights for prettiness
 \begin{figure}[htb]
 \centering
+\caption{Base Outputs}
 \begin{tabular}{|c|c|c|}
 \hline
 Output&Function&AVR PORT pin\\
@@ -392,7 +393,6 @@ Motor 4&Step Motor&OCR2B\\
 LED&Blinkenled&B5\\
 \hline
 \end{tabular}
-\caption{Base Outputs}
 \label{fig:baseoutputs}
 \end{figure}
 

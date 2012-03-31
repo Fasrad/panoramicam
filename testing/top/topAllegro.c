@@ -13,28 +13,20 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #include <avr/pgmspace.h>
 #include <avr/io.h>
 
-#define mdelay 10        //sets manual positioning speed; see delay()
+#define mdelay 40        //sets manual positioning speed; see delay()
 
 void delay(uint16_t);
 void die (uint8_t);
 void blink (uint8_t);
 void step (uint8_t);
 
-
 int main(){
-
-    uint16_t dly;         //delay between steps, in timer ticks
-    uint8_t inflation;    //increase in delay between steps, in timer ticks
+    uint16_t dly;    //delay between steps, in timer ticks
     //set up port pins 
-    DDRB = 0xFF;
+    DDRB = 0xFF; 
     DDRC = 0;
-    PORTB = 0b00011100;
+    PORTB = 0xFF;
     PORTC = 0xFF;
-    // timer configs
-    TCCR0A = 0b00000000;     // p.103 in datasheet
-    TCCR0B = 2;              //scaler,  p.105  (7.84 kHz)
-    TCCR1A = 0;
-    TCCR1B = 0b00000000;
     //startup blinkenled
     for (int i=0; i<8; i++){
 	PORTB |= (1<<5);
@@ -43,6 +35,9 @@ int main(){
 	delay(800);
     }
     delay(8000);
+
+    //aux. timer configs
+    TCCR0B = 2;                   //F_CPU/8;  p.105  (7.84 kHz)
 
     //read in DIPswitch; set up TIMER1 per external calculation 
     //remember we step at twice the desired rate because allegro
@@ -145,9 +140,9 @@ int main(){
 
     blink(inflation);
 
-    while(PINC & 1<<5){           //allow user to pre-position camera
-	if(!(PINC & 1<<4)){
-	    PORTB ^= (1<<1);
+    while(PINC & 1<<4){           //allow user to pre-position camera
+	if(!(PINC & 1<<5)){
+	    PORTB ^= (1<<4);
 	    delay(mdelay);
 	    }
     }
@@ -162,7 +157,7 @@ int main(){
 	if (TCNT1 >= dly){die (2);}   //catch possible timer underrun
 	while(TCNT1 < dly){}          //poll timer 
 	TCNT1 = 0;          
-	PORTB ^= (1<<1);
+	PORTB ^= (1<<4);
 	if(~counter){
 	    dly += inflation;      
 	}
