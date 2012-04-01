@@ -9,32 +9,29 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 ******************************************************************/
 
+#define mdelay 10        //sets manual positioning speed; see delay()
 #define F_CPU 16000000UL //*16MHz*
 #include <avr/pgmspace.h>
 #include <avr/io.h>
-
-#define mdelay 10        //sets manual positioning speed; see delay()
 
 void delay(uint16_t);
 void die (uint8_t);
 void blink (uint8_t);
 void step (uint8_t);
 
-
 int main(){
-
     uint16_t dly;         //delay between steps, in timer ticks
-    uint8_t inflation;    //increase in delay between steps, in timer ticks
+    uint8_t inflation;    //increase in dly, in timer ticks
+    uint8_t counter;      //sets inflation update frequency 
     //set up port pins 
     DDRB = 0xFF;
     DDRC = 0;
     PORTB = 0b00011100;
     PORTC = 0xFF;
     // timer configs
-    TCCR0A = 0b00000000;     // p.103 in datasheet
+    TCCR0A = 0;              // p.103 in datasheet
     TCCR0B = 2;              //scaler,  p.105  (7.84 kHz)
     TCCR1A = 0;
-    TCCR1B = 0b00000000;
     //startup blinkenled
     for (int i=0; i<8; i++){
 	PORTB |= (1<<5);
@@ -43,109 +40,127 @@ int main(){
 	delay(800);
     }
     delay(8000);
-
+    
     //read in DIPswitch; set up TIMER1 per external calculation 
-    //remember we step at twice the desired rate because allegro
-    //only steps on a rising edge
-    if (!(PINC & (1<<3))){
-	switch (PINC & 0b00000111){   //for 28mm lens
+    if (!(PINC & (1<<3))){            //for 28mm lens
+	switch (PINC & 0b00000111){  
 	    case 0:
 		dly=7143;             //8s revolution
 		TCCR1B |= (1);        //F_CPU/1; page 133; 
+		PORTB = 0b00011100;   //16th-step
+		inflation = 17;
 		blink (0);
 		break;
 	    case 1:
-		dly=14286;            //16s revolution
-		TCCR1B |= (1);        //F_CPU/1
+		dly=1786;             //16s revolution
+		TCCR1B |= (2);        //F_CPU/8
+		PORTB = 0b00011100;   //16th-step
+		inflation = 4;
 		blink (1);
 		break;
 	    case 2:
-		dly=28571;            //32s revolution
-		TCCR1B |= (1);        //F_CPU/1
+		dly=3571;             //32s revolution
+		TCCR1B |= (2);        //F_CPU/8
+		PORTB = 0b00011100;   //16th-step
+		inflation = 34;
 		blink (2);
 		break;
 	    case 3:
-		dly=57142;             //64s revolution
-		TCCR1B |= (1);         //F_CPU/1
+		dly=7143;              //64s revolution
+		TCCR1B |= (2);         //F_CPU/8
+		PORTB = 0b00011100;    //16th-step
+		inflation = 17;
 		blink (3);
 		break;
 	    case 4:
-		dly=8370;              //10min revolution
+		dly=8371;              //10min revolution
 		TCCR1B |= (3);         //F_CPU/64
+		PORTB = 0b00011100;    //16th-step
+		inflation = 20;
 		blink (4);
 		break;
 	    case 5:
-		dly=50223;             //1hr revolution
-		TCCR1B |= (3);         //F_CPU/256
+		dly=2093;              //1hr revolution
+		TCCR1B |= (4);         //F_CPU/256
+		PORTB = 0b00011100;    //16th-step
+		inflation = 5;
 		blink (5);
 		break;
 	    case 6:
-		dly=25111;             //2hr revolution
-		TCCR1B |= (1<<2);      //F_CPU/256
+		dly=6278;             //2hr revolution
+		TCCR1B |= (5);        //F_CPU/1024
+		PORTB = 0b00011100;   //16th-step
+		inflation = 15;
 		blink (6);
 		break;
 	    case 7:
-		dly=50223;             //4hr revolution
-		TCCR1B |= (1<<2);      //F_CPU/256
+		dly=12556;             //4hr revolution
+		TCCR1B |= (5);         //F_CPU/1024
+		PORTB = 0b00011100;    //16th-step
+		inflation = 30;
 		blink (7);
 		break;
 	    default:
 		die (1);
-	uint8_t inflation = dly/833;
 	}
     } else {
 	switch (PINC & 0b00000111){   //for 50mm lens
 	    case 0:
-		dly=7143;             //8s revolution
+		dly=4000;             //8s revolution
 		TCCR1B |= (1);        //F_CPU/1; page 133; 
+		inflation = 10;
 		blink (0);
 		break;
 	    case 1:
-		dly=14286;            //16s revolution
+		dly=8000;             //16s revolution
 		TCCR1B |= (1);        //F_CPU/1
+		inflation = 19;
 		blink (1);
 		break;
 	    case 2:
-		dly=28571;            //32s revolution
-		TCCR1B |= (1);        //F_CPU/1
+		dly=4000;             //32s revolution
+		TCCR1B |= (2);        //F_CPU/8
+		inflation = 19;
 		blink (2);
 		break;
 	    case 3:
-		dly=57142;             //64s revolution
-		TCCR1B |= (1);         //F_CPU/1
+		dly=4000;              //64s revolution
+		TCCR1B |= (2);         //F_CPU/8
+		inflation = 10;
 		blink (3);
 		break;
 	    case 4:
-		dly=8370;              //10min revolution
+		dly=4687;              //10min revolution
 		TCCR1B |= (3);         //F_CPU/64
+		inflation = 11;
 		blink (4);
 		break;
 	    case 5:
-		dly=50223;             //1hr revolution
-		TCCR1B |= (3);         //F_CPU/256
+		dly=7031;              //1hr revolution
+		TCCR1B |= (4);         //F_CPU/256
+		inflation = 17;
 		blink (5);
 		break;
 	    case 6:
-		dly=25111;             //2hr revolution
-		TCCR1B |= (1<<2);      //F_CPU/256
+		dly=3515;             //2hr revolution
+		TCCR1B |= (5);        //F_CPU/1024
+		inflation = 8;
 		blink (6);
 		break;
 	    case 7:
-		dly=50223;             //4hr revolution
-		TCCR1B |= (1<<2);      //F_CPU/256
+		dly=7031;             //4hr revolution
+		TCCR1B |= (5);        //F_CPU/1024
+		inflation = 17;
 		blink (7);
 		break;
 	    default:
 		die (1);
 	}
-	uint8_t inflation = dly/400;
     }//if
 
-    uint8_t counter;              //sets inflation frequency 
+    blink(inflation);  //debug
 
-    blink(inflation);
-
-    while(PINC & 1<<5){           //allow user to pre-position camera
+    while(PINC & 1<<5){           //allow user to manually turn motor
 	if(!(PINC & 1<<4)){
 	    PORTB ^= (1<<1);
 	    delay(mdelay);
@@ -156,17 +171,17 @@ int main(){
     blink(10);
 
     TCNT1 = 0;
-    PORTB |= 1;                  //Allegro chip config ccw
 
     while(1){
 	if (TCNT1 >= dly){die (2);}   //catch possible timer underrun
 	while(TCNT1 < dly){}          //poll timer 
+	PORTB |= (1<<1);
 	TCNT1 = 0;          
-	PORTB ^= (1<<1);
-	if(~counter){
-	    dly += inflation;      
+	if(!(~counter)){             //to save precision, only update 
+	    dly += inflation;        //dly every 256 steps 
 	}
 	counter++;
+	PORTB &= ~(1<<1);            //think it's been high 16 cycles?
     }
 }//main
 
