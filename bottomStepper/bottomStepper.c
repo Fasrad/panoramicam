@@ -58,22 +58,22 @@ int main(){
 	    break;
 	case 2:
 	    dly=1667;             //32s revolution
-	    TCCR1B |= (1<<1);     //F_CPU/8
+	    TCCR1B |= (2);     //F_CPU/8
 	    blink (2);
 	    break;
 	case 3:
 	    dly=3333;             //64s revolution
-	    TCCR1B |= (1<<1);     //F_CPU/8
+	    TCCR1B |= (2);     //F_CPU/8
 	    blink (3);
 	    break;
 	case 4:
 	    dly=3906;             //10min revolution
-	    TCCR1B |= (1<<2);     //F_CPU/64
+	    TCCR1B |= (3);     //F_CPU/64
 	    blink (4);
 	    break;
 	case 5:
 	    dly=23437;            //1hr revolution
-	    TCCR1B |= (1<<2);     //F_CPU/64
+	    TCCR1B |= (3);     //F_CPU/64
 	    blink (5);
 	    break;
 	case 6:
