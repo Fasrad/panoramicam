@@ -175,10 +175,12 @@ int main(){
     while(1){
 	if (TCNT1 >= dly){die (2);}   //catch possible timer underrun
 	while(TCNT1 < dly){}          //poll timer 
-	PORTB |= (1<<1);
 	TCNT1 = 0;          
-	if(!(~counter)){             //to save precision, only update 
-	    dly += inflation;        //dly every 256 steps 
+	PORTB |= (1<<1);
+	if(!(~counter)){                   //to save precision, only update 
+	    if(dly < (65535-inflation)){   //dly every 256 steps 
+		dly += inflation;    
+	    }
 	}
 	counter++;
 	PORTB &= ~(1<<1);            //think it's been high 16 cycles?
