@@ -11,7 +11,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 #define mdelay 5        //sets manual positioning speed; see delay()
 #define F_CPU 16000000UL //*16MHz*
-#include <avr/pgmspace.h>
 #include <avr/io.h>
 
 void delay(uint16_t);
@@ -22,13 +21,15 @@ void step (uint8_t);
 int main(){
     uint16_t dly;         //delay between steps, in timer ticks
     uint8_t inflation;    //increase in dly, in timer ticks
-    uint8_t counter;      //sets inflation update frequency 
+    uint8_t counter = 1;      //sets inflation update frequency 
     //set up port pins 
     DDRB = 0xFF;
     DDRC = 0;
     PORTB = 0b00011100;
     PORTC = 0xFF;
     // timer configs
+    //TCCR0A = 0b00000011;     //fastPWM;  p.103 in datasheet
+    //TCCR0B = 2;              //F_CPU/8;  p.105  (7.84 kHz)
     TCCR0A = 0;              // p.103 in datasheet
     TCCR0B = 2;              //scaler,  p.105  (7.84 kHz)
     TCCR1A = 0;
@@ -165,7 +166,8 @@ int main(){
 	}
     }//if
 
-    blink(inflation);  //debug
+   // delay(8000);
+    //blink(inflation);  //debug
 
     while(PINC & 1<<5){           //allow user to manually turn motor
 	if(!(PINC & 1<<4)){
@@ -181,16 +183,12 @@ int main(){
     PORTB &= ~(1<<5);           //clear blinkenled
 
     while(1){
-	if (TCNT1 >= dly){die (2);}   //catch possible timer underrun
+	if (TCNT1 >= dly){die (2);}   //catch timer underrun/overflow
 	while(TCNT1 < dly){}          //poll timer 
 	TCNT1 = 0;          
 	PORTB |= (1<<1);
-	if(!(~counter)){                   //to save precision, only update 
-	    if(dly < (65535-inflation)){   //dly every 256 steps 
-		dly += inflation;    
-	    } else {
-		PORTB |= (1<<5);           //blinkenled indicates overflow
-	    }
+	if(!counter){             //to save precision, only update 
+		dly += inflation;     //every 256 steps 
 	}
 	counter++;
 	PORTB &= ~(1<<1);         //think it's been high 16 cycles (1us)?
@@ -215,9 +213,9 @@ void die (uint8_t me){
 void blink (uint8_t me){
     for (int i=0; i<me; i++){
 	PORTB |= (1<<5);
-	delay(300);
+	delay(3000);
 	PORTB &= ~(1<<5);
-	delay(300);
+	delay(3000);
     }
     delay(600);
 }

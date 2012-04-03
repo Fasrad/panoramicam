@@ -11,7 +11,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 #define mdelay 5         //sets manual positioning speed; see delay()
 #define F_CPU 16000000UL //*16MHz*
-#include <avr/pgmspace.h>
 #include <avr/io.h>
 
 void delay(uint16_t);
@@ -117,7 +116,6 @@ void ustep(uint8_t me){
     Sinewave output routine for unipolar stepper motor
     1 is clockwise and 2 is anticlockwise 
     *********************************************************/
-
     /*
     //0--actual sine wave 
     static uint8_t sinewave[64]= {0,13,25,37,50,62,74,86,98,109,120,131,
