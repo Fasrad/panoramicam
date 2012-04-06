@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.2.5)  26 MAR 2012 20:00
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2012.2.5)  3 APR 2012 22:22
 entering extended mode
  %&-line parsing enabled.
 **pano.tex
@@ -147,28 +147,42 @@ Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 )
 \Gin@req@height=\dimen112
 \Gin@req@width=\dimen113
-) (./pano.aux)
+)
+(/usr/share/texmf-texlive/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count101
+\float@exts=\toks20
+\float@box=\box28
+\@float@everytoks=\toks21
+\@floatcapt=\box29
+)
+\@float@every@program=\toks22
+\c@program=\count102
+ (./pano.aux
+
+LaTeX Warning: Label `fig:Panoramicam' multiply defined.
+
+)
 \openout1 = `pano.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Try loading font information for OT1+ppl on input line 32.
-
-(/usr/share/texmf-texlive/tex/latex/psnfss/ot1ppl.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Try loading font information for OT1+ppl on input line 38.
+ (/usr/share/texmf-texlive/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 49.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 55.
  (./pano.toc
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1.
@@ -176,54 +190,58 @@ LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
 \tf@toc=\write3
 \openout3 = `pano.toc'.
 
- (./pano.lof)
+
+(./pano.lof)
 \tf@lof=\write4
 \openout4 = `pano.lof'.
 
-[1
-
-]
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 76.
-
-! Missing number, treated as zero.
-<to be read again> 
-                   ]
-l.81 includegraphics[width=0.8\textwidth]
-                                         {test}
-? 
-! Illegal unit of measure (pt inserted).
-<to be read again> 
-                   ]
-l.81 includegraphics[width=0.8\textwidth]
-                                         {test}
-? 
-
-Overfull \hbox (2.23625pt too wide) in paragraph at lines 92--93
-\OT1/ppl/m/n/12 be im-pos-si-ble with-out ei-ther a 10x10 en-larger or build-in
-g a spe-cial slit-scanning
- []
-
-[2]
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 64.
 File: test.eps Graphic file (type eps)
  <test.eps>
 
-LaTeX Warning: \oval, \circle, or \line size unavailable on input line 160.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-[3] [4] [5] [6] [7] [8]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 414.
+[1
 
- (/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-[9] AED: lastpage setting LastPage [10] (./pano.aux) ) 
+] [2]
+File: proto.eps Graphic file (type eps)
+ <proto.eps>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: \oval, \circle, or \line size unavailable on input line 169.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3] [4] [5]
+Overfull \hbox (0.88466pt too wide) in paragraph at lines 274--275
+\OT1/ppl/m/n/12 The film is wound by a bipo-lar step-per mo-tor. An Al-le-gro m
+i-crostep-ping driver
+ []
+
+File: stepperdriver.eps Graphic file (type eps)
+<stepperdriver.eps>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[6] [7] AED: lastpage setting LastPage [8] (./pano.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 1628 strings out of 493849
- 20040 string characters out of 1152847
- 105101 words of memory out of 3000000
- 4899 multiletter control sequences out of 15000+50000
- 12114 words of font info for 41 fonts, out of 3000000 for 9000
+ 1668 strings out of 493849
+ 20461 string characters out of 1152847
+ 106217 words of memory out of 3000000
+ 4937 multiletter control sequences out of 15000+50000
+ 11898 words of font info for 40 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 27i,12n,43p,846b,378s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,12n,43p,608b,318s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on pano.dvi (10 pages, 49448 bytes).
+Output written on pano.dvi (8 pages, 40060 bytes).

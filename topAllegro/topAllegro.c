@@ -66,7 +66,7 @@ int main(){
 		blink (2);
 		break;
 	    case 3:
-		dly=7143;              //64s revolution
+		dly=7843;              //64s revolution
 		inflation = 17;
 		TCCR1B |= (2);         //F_CPU/8
 		PORTB = 0b00011100;    //16th-step

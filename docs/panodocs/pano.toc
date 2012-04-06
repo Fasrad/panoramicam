@@ -1,29 +1,18 @@
 \contentsline {section}{\numberline {1}Purpose}{1}
-\contentsline {section}{\numberline {2}References}{1}
-\contentsline {section}{\numberline {3}Definitions}{2}
-\contentsline {section}{\numberline {4}Panoramicam}{2}
-\contentsline {subsection}{The slit-scan camera concept}{2}
+\contentsline {section}{\numberline {2}Panoramicam}{1}
+\contentsline {subsection}{The Concept}{1}
 \contentsline {subsection}{Implementation details}{2}
-\contentsline {section}{\numberline {5}Theoretical Development}{3}
-\contentsline {section}{\numberline {6}Hardware description}{5}
+\contentsline {section}{\numberline {3}Theoretical Development}{3}
+\contentsline {section}{\numberline {4}Hardware description}{5}
 \contentsline {subsection}{The Camera}{5}
-\contentsline {subsection}{The Platform}{6}
+\contentsline {subsection}{The Platform}{5}
 \contentsline {subsection}{The Base}{6}
 \contentsline {subsection}{The Motion Control hardware}{6}
-\contentsline {section}{\numberline {7}Operating Instructions}{7}
-\contentsline {subsection}{Initial Setup}{7}
+\contentsline {section}{\numberline {5}Operating Instructions}{6}
+\contentsline {subsection}{Initial Setup}{6}
 \contentsline {subsection}{Load the film}{7}
-\contentsline {subsection}{Make The Exposure}{7}
-\contentsline {section}{\numberline {8}Software Functional Spec}{8}
-\contentsline {subsection}{Basic Software Function}{8}
-\contentsline {subsubsection}{Base}{8}
-\contentsline {subsubsection}{Platform}{8}
+\contentsline {subsection}{Make The Exposure}{8}
+\contentsline {section}{\numberline {6}Software Functional Spec}{8}
 \contentsline {subsection}{Software Requirements}{8}
-\contentsline {subsubsection}{Inputs and Outputs}{8}
-\contentsline {subsubsection}{Human Interface}{8}
-\contentsline {subsubsection}{Motor Control}{8}
-\contentsline {subsubsection}{Errors, Faults and Programmability}{9}
-\contentsline {subsection}{Development}{9}
-\contentsline {section}{\numberline {9}Example Source code}{9}
-\contentsline {subsection}{platform example code}{10}
-\contentsline {subsection}{base example code}{10}
+\contentsline {subsubsection}{Errors, Faults and Programmability}{8}
+\contentsline {subsection}{Development}{8}
