@@ -3,7 +3,7 @@ topAllegro.c
 For the top half of panoramicam. Written for the ATMEGA 168 microcontroller
 and avr-gcc compiler, by chaz miller circa 2012.
 
-this is designed to run a stepper motor using an allegro microstepping
+this is designed to run a stepper motor using an Allegro A4983 microstepping
 driver IC. 
 
 This is free software: you can redistribute it and/or modify
@@ -13,31 +13,31 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 ******************************************************************/
 
-#define mdelay 5        //sets manual positioning speed; see delay()
+#define mdelay 5         //sets manual positioning speed; see delay()
 #define F_CPU 16000000UL //*16MHz*
 #include <avr/io.h>
 
-//function prototypes
 void delay(uint16_t);
 void die (uint8_t);
 void blink (uint8_t);
 void step (uint8_t);
 
 int main(){
+    /****************************************
+    ***** initialize and setup camera  ******
+    ****************************************/
     uint16_t dly;         //delay between steps, in timer ticks
-    uint8_t inflation;    //increase in dly, in timer ticks
-    uint8_t counter = 1;  //sets inflation update frequency 
-    //set up port pins 
+    uint8_t inflation;    //slowing parameter, in timer ticks
+    uint8_t counter = 1;  //counter var for dly updating
     DDRB = 0xFF;
     DDRC = 0;
     PORTB = 0b00011100;
     PORTC = 0xFF;
-    // timer configs
-    TCCR0A = 0;              //pwm mode, p.103 in datasheet
-    TCCR0B = 2;              //scaler,  p.105  (7.84 kHz)
-    TCCR1A = 0;
-    //startup blinkenled for user
-    for (int i=0; i<8; i++){
+    //8 bit Timer 0 is the pwm timer. Also used by delay()
+    TCCR0A = 0;                //fast pwm mode (page 103)
+    TCCR0B = 2;                //scaler 2 (7.84 kHz) (page105)
+    TCCR1A = 0;                //16 bit Timer 1: main program timer 
+    for (int i=0; i<8; i++){   //startup blinkenled for user
 	PORTB |= (1<<5);
 	delay(800);
 	PORTB &= ~(1<<5);
@@ -46,10 +46,10 @@ int main(){
     delay(8000);
     //read in DIPswitch; set up TIMER1 per external calculation 
     //see allegro datasheet page 6
-    if (!(PINC & (1<<3))){            //for 28mm lens
+    if (!(PINC & (1<<3))){            //case for 28mm lens
 	switch (PINC & 0b00000111){  
 	    case 0:
-		dly=7857;             //8s revolution
+		dly=7857;             //8s platform revolution
 		inflation = 67;
 		TCCR1B |= (1);        //F_CPU/1; page 133; 
 		PORTB = 0b00010000;   // 1/2 step
@@ -63,7 +63,7 @@ int main(){
 		blink (1);
 		break;
 	    case 2:
-		dly=7857;             //32s revolution
+		dly=10000;            //32s revolution
 		inflation = 17;
 		TCCR1B |= (1);        //F_CPU/1; page 133; 
 		PORTB = 0b00011000;   // 1/8 step
@@ -169,23 +169,20 @@ int main(){
 		die (1);
 	}
     }//timer setups if
-
-    //blink(inflation);  //debug
-
-    while(PINC & 1<<5){       //allow user to manually position camera
+    //blink(inflation);         //debug
+    while(PINC & 1<<5){       //manual positioning routine
 	if(!(PINC & 1<<4)){
 	    PORTB ^= (1<<1);
 	    delay(mdelay);
 	}
     }
-    //button has been pressed; initiate pictionation 
-
-    blink(10); //countdown for user 
-
+    /****************************************
+    *****this is where the magic happens*****
+    ****************************************/
+    blink(10); //countdown for user convenience
     TCNT1 = 0;
     PORTB &= ~(1<<5);           //clear blinkenled (kludge)
-
-    while(1){  // this is where the magic happens
+    while(1){  
 	if (TCNT1 >= dly){die (2);}   //catch timer underrun/overflow
 	while(TCNT1 < dly){}          //poll timer 
 	TCNT1 = 0;          
