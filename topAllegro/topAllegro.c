@@ -26,16 +26,16 @@ int main(){
     /****************************************
     ***** initialize and setup camera  ******
     ****************************************/
-    uint16_t dly;         //delay between steps, in timer ticks
+    uint16_t dly;         //main delay, in timer ticks
     uint8_t inflation;    //slowing parameter, in timer ticks
     uint8_t counter = 1;  //counter var for dly updating
     DDRB = 0xFF;
     DDRC = 0;
     PORTB = 0b00011100;
     PORTC = 0xFF;
-    //8 bit Timer 0 is the pwm timer. Also used by delay()
+    //8 bit Timer 0 is the pwm timer. Also used by delay().
     TCCR0A = 0;                //fast pwm mode (page 103)
-    TCCR0B = 2;                //scaler 2 (7.84 kHz) (page105)
+    TCCR0B = 2;                //scaler 2 (7.84 kHz) (page 105)
     TCCR1A = 0;                //16 bit Timer 1: main program timer 
     for (int i=0; i<8; i++){   //startup blinkenled for user
 	PORTB |= (1<<5);
@@ -44,8 +44,7 @@ int main(){
 	delay(800);
     }
     delay(8000);
-    //read in DIPswitch; set up TIMER1 per external calculation 
-    //see allegro datasheet page 6
+    //read in DIPswitch; set up TIMER1 per Allegro datasheet page 6
     if (!(PINC & (1<<3))){            //case for 28mm lens
 	switch (PINC & 0b00000111){  
 	    case 0:
@@ -63,8 +62,8 @@ int main(){
 		blink (1);
 		break;
 	    case 2:
-		dly=10000;            //32s revolution
-		inflation = 17;
+		dly=3400;            //32s revolution
+		inflation = 10;
 		TCCR1B |= (1);        //F_CPU/1; page 133; 
 		PORTB = 0b00011000;   // 1/8 step
 		blink (2);
@@ -169,8 +168,7 @@ int main(){
 		die (1);
 	}
     }//timer setups if
-    //blink(inflation);         //debug
-    while(PINC & 1<<5){       //manual positioning routine
+    while(PINC & 1<<5){       //manual motor positioning routine
 	if(!(PINC & 1<<4)){
 	    PORTB ^= (1<<1);
 	    delay(mdelay);
@@ -181,14 +179,14 @@ int main(){
     ****************************************/
     blink(10); //countdown for user convenience
     TCNT1 = 0;
-    PORTB &= ~(1<<5);           //clear blinkenled (kludge)
+    PORTB &= ~(1<<5);           //clear any blinkenled (kludge)
     while(1){  
 	if (TCNT1 >= dly){die (2);}   //catch timer underrun/overflow
 	while(TCNT1 < dly){}          //poll timer 
 	TCNT1 = 0;          
-	PORTB |= (1<<1);              //toggle Allegro input pin 
-	if(!counter){                 //to save precision, only calculate
-	    dly += inflation;         //inflation every 256 steps 
+	PORTB |= (1<<1);              //toggle Allegro `step' pin 
+	if(!counter){                 
+	    dly += inflation;        
 	}
 	counter++;
 	PORTB &= ~(1<<1);      //hopefully, this's been high 16 cycles (1us)
