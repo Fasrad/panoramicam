@@ -63,7 +63,7 @@ int main(){
 		break;
 	    case 2:
 		dly=3400;            //32s revolution
-		inflation = 10;
+		inflation = 1;
 		TCCR1B |= (1);        //F_CPU/1; page 133; 
 		PORTB = 0b00011000;   // 1/8 step
 		blink (2);

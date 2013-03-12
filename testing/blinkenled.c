@@ -4,20 +4,23 @@
 #include <avr/interrupt.h>
 #include <avr/io.h>
 
-void main () {
 //    DDRC |= 1; //should be boarduino analog pin 0
+
+void main () {
+
+    uint8_t pulse_width=10;
+    uint8_t space_width=100;
+
+    DDRC = 0xFF;
+    PORTC = 0xFF;
+
     while(1){
-	DDRC = 0xFF;
-	PORTC = 0xFF;
 
 	for(int i=0; i<100; i++){
-	    delay_ms(10); //max delay is 15ms at 16MHz so have to loop	
+	    delay_ms(space_width); //max delay is 15ms at 16MHz so have to loop	
 	}
 
 	PORTC = 0;
-
-	for(int i=0; i<100; i++){
-	    delay_ms(10); //max delay is 15ms at 16MHz so have to loop	
-	}
+	delay_ms(pulse_width);
     }
 }
